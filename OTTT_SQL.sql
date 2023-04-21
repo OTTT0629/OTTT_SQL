@@ -268,4 +268,71 @@ create table tb_search_Word
 	,my_profile_no  bigint		 not null
 );
 
+-- 정현
+drop table if exists tb_producer;
+create table tb_producer (
+	producer_no	bigint primary key,
+	producer_nm	varchar(15) not null
+);
+
+drop table if exists tb_content_director;
+create table tb_content_director (
+	cont_director_no	bigint primary key
+);
+
+drop table if exists tb_content_entertainer;
+create table tb_content_entertainer (
+	cont_entertainer_no	bigint primary key
+);
+
+drop table if exists tb_entertainer;
+create table tb_entertainer (
+	entertainer_no	bigint primary key,
+	entertainer_nm	varchar(15) not null
+);
+
+drop table if exists tb_category;
+create table tb_category (
+	category_no	bigint primary key,
+	category_nm	varchar(20) not null
+);
+
+drop table if exists tb_user_to_role;
+create table tb_user_to_role (
+	user_to_role char(1) primary key
+);
+
+drop table if exists tb_notification;
+create table tb_notification (
+	not_no		bigint primary key,
+	not_check	int not null,
+	not_url		varchar not null,
+	not_message	varchar not null	
+);
+
+drop table if exists tb_comment;
+create table tb_comment (
+	cmt_no			bigint primary key,
+	com_content		varchar(3000) not null,
+	com_writer		varchar(50) not null,
+	cmt_dt			timestamptz not null,
+	cmt_mod_dt		timestamptz not null,
+	cmt_like_count	int not null,
+	report_cnt		int not null
+);
+
+drop table if exists tb_report;
+create table tb_report (
+	report_no		bigint primary key,
+	report_cnt		int not null,
+	report_type		char(1) not null,
+	report_date		date not null
+);
+
+drop table if exists tb_comment_like;
+create table tb_comment_like (
+	comment_like_no		bigint primary key
+);
+
+
 
