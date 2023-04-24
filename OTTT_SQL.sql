@@ -4,7 +4,7 @@ create table tb_content
 	content_no		bigint			not null	primary key,
 	content_nm		varchar(100)	not null,
 	content_info	varchar(10000)	not null,
-	content_runtime	int(500)		not null,
+	content_runtime	int				not null,
 	previewUrl		text			not null,
 	thumbnail		text			not null,
 	age				int				not null
@@ -126,8 +126,8 @@ create table tb_ad
 	ad_no					char(50) not null primary key
 );
 
-drop table if exists tb_Review;
-create table tb_Review
+drop table if exists tb_review;
+create table tb_review
 (
 	--리뷰번호
 	review_no			bigint 			not null primary key
@@ -142,34 +142,58 @@ create table tb_Review
 	,review_create_dt	timestamptz		not null
 	
 	--영상번호 FK
+	,content_no			BIGINT			not null
 	
 	--작성자(프로필번호) FK
+	,my_profile_no		BIGINT			not null
 );
 
-drop table if exists tb_Review_like;
-create table tb_Review_like
+alter table tb_review add constraint fk_content_review foreign key(content_no) 
+references tb_content(content_no);
+
+alter table tb_review add constraint fk_profile_review foreign key(my_profile_no) 
+references tb_profile(my_profile_no);
+
+drop table if exists tb_review_like;
+create table tb_review_like
 (	
 	--리뷰좋아요번호
 	review_like_no		bigint			not null primary key
 	
 	--리뷰번호 FK
+	,review_no			bigint			not null	
 	
 	--프로필번호 FK
+	,my_profile_no		bigint			not null
 );
 
-drop table if exists tb_Comtent_Genre;
-create table tb_Comtent_Genre
+alter table tb_review_like add constraint fk_review_review_like foreign key(review_no) 
+references tb_review(review_no);
+
+alter table tb_review_like add constraint fk_profile_review_like foreign key(my_profile_no) 
+references tb_profile(my_profile_no);
+
+drop table if exists tb_content_Genre;
+create table tb_content_Genre
 (
 	--영상장르번호
-	comtent_genre_no	bigint			not null primary key
+	content_genre_no	bigint			not null primary key
 	
 	--장르번호 FK
+	,genre_no			bigint			not null
 	
 	--영상번호 FK
+	,content_no			bigint			not null
 );
 
-drop table if exists tb_Genre;
-create table tb_Genre
+alter table tb_content_Genre add constraint fk_genre_content_genre foreign key(genre_no) 
+references tb_genre(genre_no);
+
+alter table tb_content_genre add constraint fk_content_content_genre foreign key(content_no) 
+references tb_content(content_no);
+
+drop table if exists tb_genre;
+create table tb_genre
 (
 	--장르번호
 	genre_no			bigint			not null primary key
@@ -178,15 +202,17 @@ create table tb_Genre
 	,genre_nm			varchar(25)		not null
 );
 
-drop table if exists tb_User;
-create table tb_User
+drop table if exists tb_user;
+create table tb_user
 (	
 	--회원번호
 	user_no				bigint			not null primary key
 	
 	--장르번호 FK
+	,genre_no			bigint			not null
 	
 	--OTT번로 FK
+	,ott_no				bigint 			not null
 	
 	--아이디
 	,user_id			varchar(20)		not null
@@ -207,8 +233,14 @@ create table tb_User
 	,user_email			varchar(150)	not null
 );
 
-drop table if exists tb_Article_content;
-create table tb_Article_content
+alter table tb_user add constraint fk_genre_user foreign key(genre_no) 
+references tb_genre(genre_no);
+
+alter table tb_user add constraint fk_ott_user foreign key(ott_no) 
+references tb_ott(ott_no);
+
+drop table if exists tb_article_content;
+create table tb_article_content
 (
 	--내용번호
 	article_content_no	bigint			not null primary key
@@ -217,9 +249,11 @@ create table tb_Article_content
 	,article_content	varchar(65535)  not null
 	
 	--사진번호 FK
-	
+	,picture_no			bigint			null
 );
 
+alter table tb_article_content add constraint fk_picture_article_content foreign key(picture_no) 
+references tb_picture(picture_no);
 
 drop table if exists tb_profile;
 create table tb_profile
@@ -359,8 +393,8 @@ create table tb_article
 	article_title		varchar(255)	not null,
 	article_create_dt	timestamptz		not null,
 	article_create_user	varchar(50)		not null,
-	article_mod_dt		timestamptz
-	article_like_count	int	
+	article_mod_dt		timestamptz,
+	article_like_count	int,
 	report_cnt			int	
 );
 
