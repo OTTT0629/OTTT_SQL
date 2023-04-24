@@ -4,7 +4,7 @@ create table tb_content
 	content_no		bigint			not null	primary key,
 	content_nm		varchar(100)	not null,
 	content_info	varchar(10000)	not null,
-	content_runtime	int(500)		not null,
+	content_runtime	int				not null,
 	previewUrl		text			not null,
 	thumbnail		text			not null,
 	age				int				not null
@@ -271,30 +271,45 @@ create table tb_search_Word
 -- 정현
 drop table if exists tb_producer;
 create table tb_producer (
-	producer_no	bigint primary key,
-	producer_nm	varchar(15) not null
+	producer_no		bigint primary key
+	, producer_nm	varchar(15) not null
 );
 
 drop table if exists tb_content_director;
 create table tb_content_director (
 	cont_director_no	bigint primary key
+	, producer_no		bigint not null
+	, content_no		bigint not null
 );
+
+alter table tb_content_director add constraint fk_producer_content_director
+foreign key (producer_no) references tb_producer(producer_no);
+alter table tb_content_director add constraint fk_content_content_director
+foreign key (content_no) references tb_content(content_no);
+
 
 drop table if exists tb_content_entertainer;
 create table tb_content_entertainer (
 	cont_entertainer_no	bigint primary key
+	, entertainer_no	bigint not null
+	, content_no		bigint not null
 );
+
+alter table tb_content_entertainer add constraint fk_entertainer_content_entertainer
+foreign key (entertainer_no) references tb_entertainer(entertainer_no);
+alter table tb_content_entertainer add constraint fk_content_content_entertainer
+foreign key (content_no) references tb_content(content_no);
 
 drop table if exists tb_entertainer;
 create table tb_entertainer (
-	entertainer_no	bigint primary key,
-	entertainer_nm	varchar(15) not null
+	entertainer_no		bigint primary key
+	, entertainer_nm	varchar(15) not null
 );
 
 drop table if exists tb_category;
 create table tb_category (
-	category_no	bigint primary key,
-	category_nm	varchar(20) not null
+	category_no		bigint primary key
+	, category_nm	varchar(20) not null
 );
 
 drop table if exists tb_user_to_role;
@@ -379,4 +394,4 @@ create table tb_article_index
 );
 
 
-
+drop table *;
