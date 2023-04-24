@@ -4,7 +4,7 @@ create table tb_content
 	content_no		bigint			not null	primary key,
 	content_nm		varchar(100)	not null,
 	content_info	varchar(10000)	not null,
-	content_runtime	int(500)		not null,
+	content_runtime	int		not null,
 	previewUrl		text			not null,
 	thumbnail		text			not null,
 	age				int				not null
@@ -110,6 +110,7 @@ create table tb_role_to_permission
 	,role_no 				smallint not null
 );
 
+
 create table tb_permission
 (
 	permission_no 			smallint not null primary key
@@ -118,6 +119,14 @@ create table tb_permission
 	,permission_edit		smallint not null
 	,permission_del			smallint not null
 );
+
+
+alter table tb_role_to_permission add constraint fk_role_role_to_permission
+	foreign key(role_no) references tb_role(role_no);
+alter table tb_role_to_permission add constraint fk_permission_role_to_permission
+	foreign key(permission_no) references tb_permission(permission_no);
+
+
 
 
 
