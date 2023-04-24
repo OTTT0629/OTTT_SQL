@@ -380,3 +380,26 @@ create table tb_article_index
 
 
 
+--소율fk
+--tb_content fk
+alter table tb_content add constraint fk_tb_content_ott_no
+   foreign key (ott_no)
+   references tb_ott (ott_no) on delete cascade;
+
+--tb_content_category fk
+alter table tb_content_category add constraint fk_tb_content_category_category_no
+   foreign key (category_no)
+   references tb_category (category_no) on delete cascade;
+
+alter table tb_content_category add constraint fk_tb_content_category_content_no
+   foreign key (content_no)
+   references tb_content (content_no) on delete cascade;
+
+--tb_end_service fk
+alter table tb_end_service add constraint fk_tb_end_service_ott_no
+   foreign key (ott_no)
+   references tb_ott (ott_no) on delete cascade;
+
+alter table tb_end_service add constraint fk_tb_end_service_content_no
+   foreign key (content_no)
+   references tb_content (content_no) on delete cascade;
