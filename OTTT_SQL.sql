@@ -379,4 +379,37 @@ create table tb_article_index
 );
 
 
+----가현(FK)
+--tb_profile FK
+alter table tb_profile add constraint fk_grade_profile foreign key(gr_no) 
+references tb_grade(gr_no);
+alter table tb_profile add constraint fk_user_profile foreign key(user_no)
+references tb_user(user_no);
+
+--tb_follow FK
+alter table tb_follow add constraint fk_profile_follow foreign key(followers_no) 
+references tb_profile(followers);
+alter table tb_follow add constraint fk_profile_follow foreign key(following_no) 
+references tb_profile(following);
+
+--tb_message FK
+alter table tb_message add constraint fk_profile_message foreign key(send_profile_no) 
+references tb_profile(my_profile_no);
+alter table tb_message add constraint fk_profile_message foreign key(receive_profile_no) 
+references tb_profile(my_profile_no);
+
+--tb_message_box FK
+alter table tb_message_box add constraint fk_profile_message_box foreign key(my_profile_no) 
+references tb_profile(my_profile_no);
+alter table tb_message_box add constraint fk_message_message_box foreign key(message_no) 
+references tb_message(message_no);
+
+--tb_search_word FK
+alter table tb_search_word add constraint fk_profile_search_word foreign key(my_profile_no) 
+references tb_profile(my_profile_no);
+
+
+
+
+
 
