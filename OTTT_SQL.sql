@@ -224,7 +224,7 @@ create table tb_Article_content
 drop table if exists tb_profile;
 create table tb_profile
 (
-	my_profile_no bigint not null primary key
+	profile_no bigint  primary key
 	,gr_no 		  bigint not null
 	,user_no	  bigint not null
 	,following	  bigint null
@@ -236,7 +236,7 @@ create table tb_profile
 drop table if exists tb_follow;
 create table tb_follow
 (
-	follow_no 		bigint not null primary key
+	follow_no 		bigint  primary key
 	,followers_no 	bigint not null
 	,following_no 	bigint not null
 	,status 		char(1) not null
@@ -245,7 +245,7 @@ create table tb_follow
 drop table if exists tb_message;
 create table tb_message
 (
-	message_no 			bigint 		  not null primary key
+	message_no 			bigint 		   primary key
 	,send_profile_no 	bigint 		  not null
 	,receive_profile_no bigint 		  not null
 	,content 			varchar(2000) not null
@@ -255,7 +255,7 @@ create table tb_message
 drop table if exists tb_message_Box;
 create table tb_message_Box
 (
-	message_box_no		bigint not null primary key
+	message_box_no		bigint  primary key
 	,my_profile_no		bigint not null
 	,message_no			bigint not null
 );
@@ -263,7 +263,7 @@ create table tb_message_Box
 drop table if exists tb_search_Word;
 create table tb_search_Word
 (
-	search_word_no	bigint 		 not null primary key
+	search_word_no	bigint 		  primary key
 	,search_content varchar(50)  not null
 	,my_profile_no  bigint		 not null
 );
@@ -388,25 +388,25 @@ references tb_user(user_no);
 
 --tb_follow FK
 alter table tb_follow add constraint fk_profile_follow foreign key(followers_no) 
-references tb_profile(followers);
+references tb_profile(profile_no);
 alter table tb_follow add constraint fk_profile_follow foreign key(following_no) 
-references tb_profile(following);
+references tb_profile(profile_no);
 
 --tb_message FK
 alter table tb_message add constraint fk_profile_message foreign key(send_profile_no) 
-references tb_profile(my_profile_no);
+references tb_profile(profile_no);
 alter table tb_message add constraint fk_profile_message foreign key(receive_profile_no) 
-references tb_profile(my_profile_no);
+references tb_profile(profile_no);
 
 --tb_message_box FK
-alter table tb_message_box add constraint fk_profile_message_box foreign key(my_profile_no) 
-references tb_profile(my_profile_no);
+alter table tb_message_box add constraint fk_profile_message_box foreign key(profile_no) 
+references tb_profile(profile_no);
 alter table tb_message_box add constraint fk_message_message_box foreign key(message_no) 
 references tb_message(message_no);
 
 --tb_search_word FK
-alter table tb_search_word add constraint fk_profile_search_word foreign key(my_profile_no) 
-references tb_profile(my_profile_no);
+alter table tb_search_word add constraint fk_profile_search_word foreign key(profile_no) 
+references tb_profile(profile_no);
 
 
 
