@@ -268,71 +268,143 @@ create table tb_search_Word
 	,my_profile_no  bigint		 not null
 );
 
+
 -- 정현
 drop table if exists tb_producer;
 create table tb_producer (
-	producer_no	bigint primary key,
-	producer_nm	varchar(15) not null
+	producer_no		bigint primary key
+	, producer_nm	varchar(15) not null
 );
 
 drop table if exists tb_content_director;
 create table tb_content_director (
 	cont_director_no	bigint primary key
+	, producer_no		bigint not null
+	, content_no		bigint not null
 );
+
+alter table tb_content_director add constraint fk_producer_content_director
+	foreign key (producer_no) references tb_producer(producer_no);
+alter table tb_content_director add constraint fk_content_content_director
+	foreign key (content_no) references tb_content(content_no);
+
 
 drop table if exists tb_content_entertainer;
 create table tb_content_entertainer (
 	cont_entertainer_no	bigint primary key
+	, entertainer_no	bigint not null
+	, content_no		bigint not null
 );
+
+alter table tb_content_entertainer add constraint fk_entertainer_content_entertainer
+	foreign key (entertainer_no) references tb_entertainer(entertainer_no);
+alter table tb_content_entertainer add constraint fk_content_content_entertainer
+	foreign key (content_no) references tb_content(content_no);
 
 drop table if exists tb_entertainer;
 create table tb_entertainer (
-	entertainer_no	bigint primary key,
-	entertainer_nm	varchar(15) not null
+	entertainer_no		bigint primary key
+	, entertainer_nm	varchar(15) not null
 );
 
 drop table if exists tb_category;
 create table tb_category (
-	category_no	bigint primary key,
-	category_nm	varchar(20) not null
+	category_no		bigint primary key
+	, category_nm	varchar(20) not null
 );
 
 drop table if exists tb_user_to_role;
 create table tb_user_to_role (
-	user_to_role char(1) primary key
+	user_to_role 	char(1) primary key
+	, my_profile_no	bigint not null
+	, role_no		char(1) not null	
 );
+
+alter table tb_user_to_role add constraint fk_profile_user_to_role
+	foreign key (my_profile_no) references tb_profile(my_profile_no);
+alter table tb_user_to_role add constraint fk_role_user_to_role
+	foreign key (role_no) references tb_role(role_no);
 
 drop table if exists tb_notification;
 create table tb_notification (
-	not_no		bigint primary key,
-	not_check	int not null,
-	not_url		varchar not null,
-	not_message	varchar not null	
+	not_no				bigint primary key
+	, my_profile_no		bigint not null
+	, target_profile_no	bigint not null
+	, message_no		bigint not null
+	, article_no		bigint not null
+	, cmt_no			bigint not null
+	, review_like_no	bigint not null
+	, article_like_no	bigint not null
+	, comment_like_no	bigint not null
+	, not_check			int not null
+	, not_url			varchar not null
+	, not_message		varchar not null	
 );
+
+alter table tb_notification add constraint fk_profile_notification
+	foreign key (profile_no) references tb_profile(profile_no);
+alter table tb_notification add constraint fk_role_notification
+	foreign key (target_profile_no) references tb_profile(profile_no);
+alter table tb_notification add constraint fk_message_notification
+	foreign key (message_no) references tb_message(message_no);
+alter table tb_notification add constraint fk_article_notification
+	foreign key (article_no) references tb_article(article_no);
+alter table tb_notification add constraint fk_comment_notification
+	foreign key (cmt_no) references tb_comment(cmt_no);
+alter table tb_notification add constraint fk_review_like_notification
+	foreign key (review_like_no) references tb_review_like(review_like_no);
+alter table tb_notification add constraint fk_article_like_notification
+	foreign key (article_like_no) references tb_article_like(article_like_no);
+alter table tb_notification add constraint fk_comment_like_notification
+	foreign key (comment_like_no) references tb_comment_like(comment_like_no);
 
 drop table if exists tb_comment;
 create table tb_comment (
-	cmt_no			bigint primary key,
-	com_content		varchar(3000) not null,
-	com_writer		varchar(50) not null,
-	cmt_dt			timestamptz not null,
-	cmt_mod_dt		timestamptz not null,
-	cmt_like_count	int not null,
-	report_cnt		int not null
+	cmt_no				bigint primary key
+	, profile_no		bigint not null	
+	, article_no		bigint not null
+	, com_content		varchar(3000) not null
+	, com_writer		varchar(50) not null
+	, cmt_dt			timestamptz not null
+	, cmt_mod_dt		timestamptz not null
+	, cmt_like_count	int not null
+	, report_cnt		int not null
 );
+
+alter table tb_comment add constraint fk_profile_comment
+	foreign key (profile_no) references tb_profile(profile_no);
+alter table tb_comment add constraint fk_article_comment
+	foreign key (article_no) references tb_article(article_no);
 
 drop table if exists tb_report;
 create table tb_report (
-	report_no		bigint primary key,
-	report_cnt		int not null,
-	report_type		char(1) not null,
-	report_date		date not null
+	report_no		bigint primary key
+	, profile_no	bigint not null	
+	, target_profile_no	bigint not null	
+	, article_no	bigint not null	
+	, cmt_no		bigint not null	
+	, report_cnt	int not null
+	, report_type	char(1) not null
+	, report_date	date not null
 );
+
+alter table tb_report add constraint fk_profile_report
+	foreign key (profile_no) references tb_profile(profile_no);
+alter table tb_report add constraint fk_profile_report
+	foreign key (target_profile_no) references tb_profile(target_profile_no);
+alter table tb_report add constraint fk_article_report
+	foreign key (article_no) references tb_article(article_no);
+alter table tb_report add constraint fk_comment_report
+	foreign key (cmt_no) references tb_comment(cmt_no);
 
 drop table if exists tb_comment_like;
 create table tb_comment_like (
-	comment_like_no		bigint primary key
+	comment_like_no	bigint primary key
+	, cmt_no		bigint not null
 );
+
+alter table tb_comment_like add constraint fk_comment_comment_like
+	foreign key (cmt_no) references tb_comment(cmt_no);
 
 
 -- 수형
