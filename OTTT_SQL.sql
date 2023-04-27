@@ -7,7 +7,10 @@ create table tb_content
 	content_runtime	int(500)		not null,
 	previewUrl		text			not null,
 	thumbnail		text			not null,
-	age				int				not null
+	age				int				not null,
+	ott_no			bigint			not null
+	
+	
 );
 
 --tb_content fk
@@ -19,7 +22,9 @@ alter table tb_content add constraint fk_tb_content_ott_no
 drop table if exists tb_content_category;
 create table tb_content_category
 (
-	content_category_no	bigint	primary key
+	content_category_no	bigint	primary key,
+	category_no		bigint	not null,
+	content_no		bigint	not null
 );
 
 --tb_content_category fk
@@ -36,7 +41,9 @@ drop table if exists tb_end_service;
 create table tb_end_service
 (
 	end_service_no	bigint	primary key,
-	end_date		date	not null
+	end_date		date	not null,
+	ott_no			bigint	not null,
+	content_no		bigint	not null
 );
 
 --tb_end_service fk
@@ -55,6 +62,9 @@ create table tb_ott
 	ott_no	bigint		primary key,
 	ott_nm	varchar(50)	not null
 );
+
+
+
 
 -- 주화
 drop table if exists tb_whatched;
