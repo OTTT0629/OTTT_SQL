@@ -491,6 +491,39 @@ create table tb_article_index
 	article_index_no	char(1)	primary key
 );
 
+--주화(FK)
+--tb_whatched FK
+alter table tb_whatched add constraint fk_profile_whatched foreign key(my_profile_no) 
+references tb_profile(my_profile_no);
+alter table tb_whatched add constraint fk_content_whatched foreign key(content_no) 
+references tb_content(content_no);
 
+--tb_wishlist FK
+alter table tb_wishlist add constraint fk_profile_wishlist foreign key(my_profile_no) 
+references tb_profile(my_profile_no);
+alter table tb_wishlist add constraint fk_content_wishlist foreign key(content_no) 
+references tb_content(content_no);
+
+--tb_my_review FK
+alter table tb_my_review add constraint fk_profile_my_review foreign key(my_profile_no) 
+references tb_profile(my_profile_no);
+alter table tb_my_review add constraint fk_Review_my_review foreign key(review_no) 
+references tb_Review(review_no);
+
+--tb_my_diary FK
+alter table tb_my_diary add constraint fk_profile_my_diary foreign key(my_profile_no) 
+references tb_profile(my_profile_no);
+alter table tb_my_diary add constraint fk_content_my_diary foreign key(content_no) 
+references tb_content(content_no);
+alter table tb_my_diary add constraint fk_public_yn_my_diary foreign key(public_yn_cd) 
+references tb_public_yn(public_yn_cd);
+
+--tb_skin_list FK
+alter table tb_skin_list add constraint fk_profile_skin_list foreign key(my_profile_no) 
+references tb_profile(my_profile_no);
+alter table tb_skin_list  add constraint fk_mypage_background_skin_list foreign key(mypage_background_no) 
+references tb_mypage_background(mypage_background_no);
+alter table tb_skin_list  add constraint fk_profile_border_skin_list foreign key(profile_border_no) 
+references tb_profile_border(profile_border_no);
 
 
