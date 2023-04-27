@@ -338,6 +338,12 @@ create table tb_profile
 	,report_cnt   int null
 );
 
+--tb_profile FK
+alter table tb_profile add constraint fk_grade_profile foreign key(gr_no) 
+references tb_grade(gr_no);
+alter table tb_profile add constraint fk_user_profile foreign key(user_no)
+references tb_user(user_no);
+
 drop table if exists tb_follow;
 create table tb_follow
 (
@@ -346,6 +352,12 @@ create table tb_follow
 	,following_no 	bigint not null
 	,status 		char(1) not null
 );
+
+--tb_follow FK
+alter table tb_follow add constraint fk_profile_follow foreign key(followers_no) 
+references tb_profile(profile_no);
+alter table tb_follow add constraint fk_profile_follow foreign key(following_no) 
+references tb_profile(profile_no);
 
 drop table if exists tb_message;
 create table tb_message
@@ -357,6 +369,12 @@ create table tb_message
 	,send_date			timestamptz	  not null
 );
 
+--tb_message FK
+alter table tb_message add constraint fk_profile_message foreign key(send_profile_no) 
+references tb_profile(profile_no);
+alter table tb_message add constraint fk_profile_message foreign key(receive_profile_no) 
+references tb_profile(profile_no);
+
 drop table if exists tb_message_Box;
 create table tb_message_Box
 (
@@ -365,6 +383,13 @@ create table tb_message_Box
 	,message_no			bigint not null
 );
 
+--tb_message_box FK
+alter table tb_message_box add constraint fk_profile_message_box foreign key(profile_no) 
+references tb_profile(profile_no);
+alter table tb_message_box add constraint fk_message_message_box foreign key(message_no) 
+references tb_message(message_no);
+
+
 drop table if exists tb_search_Word;
 create table tb_search_Word
 (
@@ -372,31 +397,6 @@ create table tb_search_Word
 	,search_content varchar(50)  not null
 	,my_profile_no  bigint		 not null
 );
-
-----가현(FK)
---tb_profile FK
-alter table tb_profile add constraint fk_grade_profile foreign key(gr_no) 
-references tb_grade(gr_no);
-alter table tb_profile add constraint fk_user_profile foreign key(user_no)
-references tb_user(user_no);
-
---tb_follow FK
-alter table tb_follow add constraint fk_profile_follow foreign key(followers_no) 
-references tb_profile(profile_no);
-alter table tb_follow add constraint fk_profile_follow foreign key(following_no) 
-references tb_profile(profile_no);
-
---tb_message FK
-alter table tb_message add constraint fk_profile_message foreign key(send_profile_no) 
-references tb_profile(profile_no);
-alter table tb_message add constraint fk_profile_message foreign key(receive_profile_no) 
-references tb_profile(profile_no);
-
---tb_message_box FK
-alter table tb_message_box add constraint fk_profile_message_box foreign key(profile_no) 
-references tb_profile(profile_no);
-alter table tb_message_box add constraint fk_message_message_box foreign key(message_no) 
-references tb_message(message_no);
 
 --tb_search_word FK
 alter table tb_search_word add constraint fk_profile_search_word foreign key(profile_no) 
