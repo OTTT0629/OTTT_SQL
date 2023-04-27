@@ -172,6 +172,7 @@ create table tb_role_to_permission
 	,role_no 				smallint not null
 );
 
+
 create table tb_permission
 (
 	permission_no 			smallint not null primary key
@@ -180,6 +181,14 @@ create table tb_permission
 	,permission_edit		smallint not null
 	,permission_del			smallint not null
 );
+
+
+alter table tb_role_to_permission add constraint fk_role_role_to_permission
+	foreign key(role_no) references tb_role(role_no);
+alter table tb_role_to_permission add constraint fk_permission_role_to_permission
+	foreign key(permission_no) references tb_permission(permission_no);
+
+
 
 
 
