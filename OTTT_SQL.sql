@@ -1,7 +1,7 @@
 drop table if exists tb_content;
 create table tb_content
 (
-	content_no		bigint			not null	primary key,
+	content_no		bigint			primary key,
 	content_nm		varchar(100)	not null,
 	content_info	varchar(10000)	not null,
 	content_runtime	int(500)		not null,
@@ -10,23 +10,48 @@ create table tb_content
 	age				int				not null
 );
 
+--tb_content fk
+alter table tb_content add constraint fk_tb_content_ott_no
+   foreign key (ott_no)
+   references tb_ott (ott_no) on delete cascade;
+
+
 drop table if exists tb_content_category;
 create table tb_content_category
 (
-	content_category_no	bigint	not null	primary key
+	content_category_no	bigint	primary key
 );
+
+--tb_content_category fk
+alter table tb_content_category add constraint fk_tb_content_category_category_no
+   foreign key (category_no)
+   references tb_category (category_no) on delete cascade;
+
+alter table tb_content_category add constraint fk_tb_content_category_content_no
+   foreign key (content_no)
+   references tb_content (content_no) on delete cascade;
+   
 
 drop table if exists tb_end_service;
 create table tb_end_service
 (
-	end_service_no	bigint	not null	primary key,
+	end_service_no	bigint	primary key,
 	end_date		date	not null
 );
+
+alter table tb_end_service add constraint fk_end_service_ott_no
+   foreign key (ott_no)
+   references tb_ott (ott_no) on delete cascade;
+
+alter table tb_end_service add constraint fk_tb_end_service_content_no
+   foreign key (content_no)
+   references tb_content (content_no) on delete cascade;
+   
 
 drop table if exists tb_ott;
 create table tb_ott
 (
-	ott_no	bigint		not null	primary key,
+	ott_no	bigint		primary key,
 	ott_nm	varchar(50)	not null
 );
 
