@@ -13,8 +13,7 @@ create table tb_content
 
 --tb_content fk
 alter table tb_content add constraint fk_tb_content_ott_no
-   foreign key (ott_no)
-   references tb_ott (ott_no) on delete cascade;
+   foreign key (ott_no) references tb_ott (ott_no) on delete cascade;
 
 
 drop table if exists tb_content_category;
@@ -27,12 +26,10 @@ create table tb_content_category
 
 --tb_content_category fk
 alter table tb_content_category add constraint fk_tb_content_category_category_no
-   foreign key (category_no)
-   references tb_category (category_no) on delete cascade;
+   foreign key (category_no) references tb_category (category_no) on delete cascade;
 
 alter table tb_content_category add constraint fk_tb_content_category_content_no
-   foreign key (content_no)
-   references tb_content (content_no) on delete cascade;
+   foreign key (content_no) references tb_content (content_no) on delete cascade;
    
 
 drop table if exists tb_end_service;
@@ -46,12 +43,10 @@ create table tb_end_service
 
 --tb_end_service fk
 alter table tb_end_service add constraint fk_end_service_ott_no
-   foreign key (ott_no)
-   references tb_ott (ott_no) on delete cascade;
+   foreign key (ott_no) references tb_ott (ott_no) on delete cascade;
 
 alter table tb_end_service add constraint fk_tb_end_service_content_no
-   foreign key (content_no)
-   references tb_content (content_no) on delete cascade;
+   foreign key (content_no) references tb_content (content_no) on delete cascade;
    
 
 drop table if exists tb_ott;
@@ -72,10 +67,10 @@ create table tb_whatched(
 );
 
 --tb_whatched FK
-alter table tb_whatched add constraint fk_profile_whatched foreign key(profile_no) 
-references tb_profile(profile_no);
-alter table tb_whatched add constraint fk_content_whatched foreign key(content_no) 
-references tb_content(content_no);
+alter table tb_whatched add constraint fk_profile_whatched
+	foreign key(profile_no) references tb_profile(profile_no);
+alter table tb_whatched add constraint fk_content_whatched
+	foreign key(content_no) references tb_content(content_no);
 
 
 drop table if exists tb_wishlist;
@@ -86,24 +81,24 @@ create table tb_wishlist(
 );
 
 --tb_wishlist FK
-alter table tb_wishlist add constraint fk_profile_wishlist foreign key(profile_no) 
-references tb_profile(profile_no);
-alter table tb_wishlist add constraint fk_content_wishlist foreign key(content_no) 
-references tb_content(content_no);
+alter table tb_wishlist add constraint fk_profile_wishlist
+	foreign key(profile_no) references tb_profile(profile_no);
+alter table tb_wishlist add constraint fk_content_wishlist
+	foreign key(content_no) references tb_content(content_no);
 
 
 drop table if exists tb_my_review;
 create table tb_my_review(
 	my_review_no	bigint	generated always as identity primary key
-	,my_pofile_no	bigint	not null
+	,profile_no		bigint	not null
 	,review_no		bigint	not null
 );
 
 --tb_my_review FK
-alter table tb_my_review add constraint fk_profile_my_review foreign key(profile_no) 
-references tb_profile(profile_no);
-alter table tb_my_review add constraint fk_Review_my_review foreign key(review_no) 
-references tb_review(review_no);
+alter table tb_my_review add constraint fk_profile_my_review
+	foreign key(profile_no) references tb_profile(profile_no);
+alter table tb_my_review add constraint fk_Review_my_review
+	foreign key(review_no) references tb_review(review_no);
 
 
 drop table if exists tb_my_diary;
@@ -121,12 +116,12 @@ create table tb_my_diary(
 );
 
 --tb_my_diary FK
-alter table tb_my_diary add constraint fk_profile_my_diary foreign key(profile_no) 
-references tb_profile(profile_no);
-alter table tb_my_diary add constraint fk_content_my_diary foreign key(content_no) 
-references tb_content(content_no);
-alter table tb_my_diary add constraint fk_public_yn_my_diary foreign key(public_yn_cd) 
-references tb_public_yn(public_yn_cd);
+alter table tb_my_diary add constraint fk_profile_my_diary
+	foreign key(profile_no) references tb_profile(profile_no);
+alter table tb_my_diary add constraint fk_content_my_diary
+	foreign key(content_no) references tb_content(content_no);
+alter table tb_my_diary add constraint fk_public_yn_my_diary
+	foreign key(public_yn_cd) references tb_public_yn(public_yn_cd);
 
 
 drop table if exists tb_public_yn;
@@ -150,12 +145,12 @@ create table tb_skin_list(
 );
 
 --tb_skin_list FK
-alter table tb_skin_list add constraint fk_profile_skin_list foreign key(profile_no) 
-references tb_profile(profile_no);
-alter table tb_skin_list  add constraint fk_mypage_background_skin_list foreign key(mypage_background_no) 
-references tb_mypage_background(mypage_background_no);
-alter table tb_skin_list  add constraint fk_profile_border_skin_list foreign key(profile_border_no) 
-references tb_profile_border(profile_border_no);
+alter table tb_skin_list add constraint fk_profile_skin_list
+	foreign key(profile_no) references tb_profile(profile_no);
+alter table tb_skin_list  add constraint fk_mypage_background_skin_list
+	foreign key(mypage_background_no) references tb_mypage_background(mypage_background_no);
+alter table tb_skin_list  add constraint fk_profile_border_skin_list
+	foreign key(profile_border_no) references tb_profile_border(profile_border_no);
 
 
 drop table if exists tb_profile_border;
@@ -222,7 +217,7 @@ create table tb_review
 	,rating			 	int				not null
 	
 	--내용
-	,review_content		varchar(65535)	 not null
+	,review_content		varchar(65535)	not null
 	
 	--등록날짜
 	,review_create_dt	timestamptz		not null
@@ -234,11 +229,10 @@ create table tb_review
 	,profile_no			BIGINT			not null
 );
 
-alter table tb_review add constraint fk_content_review foreign key(content_no) 
-references tb_content(content_no);
-
-alter table tb_review add constraint fk_profile_review foreign key(profile_no) 
-references tb_profile(profile_no);
+alter table tb_review add constraint fk_content_review
+	foreign key(content_no) references tb_content(content_no);
+alter table tb_review add constraint fk_profile_review
+	foreign key(profile_no) references tb_profile(profile_no);
 
 
 drop table if exists tb_review_like;
@@ -254,11 +248,10 @@ create table tb_review_like
 	,profile_no			bigint			not null
 );
 
-alter table tb_review_like add constraint fk_review_review_like foreign key(review_no) 
-references tb_review(review_no);
-
-alter table tb_review_like add constraint fk_profile_review_like foreign key(profile_no) 
-references tb_profile(profile_no);
+alter table tb_review_like add constraint fk_review_review_like
+	foreign key(review_no) references tb_review(review_no);
+alter table tb_review_like add constraint fk_profile_review_like
+	foreign key(profile_no) references tb_profile(profile_no);
 
 
 drop table if exists tb_content_Genre;
@@ -274,11 +267,10 @@ create table tb_content_Genre
 	,content_no			bigint		not null
 );
 
-alter table tb_content_Genre add constraint fk_genre_content_genre foreign key(genre_no) 
-references tb_genre(genre_no);
-
-alter table tb_content_genre add constraint fk_content_content_genre foreign key(content_no) 
-references tb_content(content_no);
+alter table tb_content_Genre add constraint fk_genre_content_genre
+	foreign key(genre_no) references tb_genre(genre_no);
+alter table tb_content_genre add constraint fk_content_content_genre
+	foreign key(content_no) references tb_content(content_no);
 
 
 drop table if exists tb_genre;
@@ -323,11 +315,10 @@ create table tb_user
 	,user_email			varchar(150)	not null
 );
 
-alter table tb_user add constraint fk_genre_user foreign key(genre_no) 
-references tb_genre(genre_no);
-
-alter table tb_user add constraint fk_ott_user foreign key(ott_no) 
-references tb_ott(ott_no);
+alter table tb_user add constraint fk_genre_user
+	foreign key(genre_no) references tb_genre(genre_no);
+alter table tb_user add constraint fk_ott_user
+	foreign key(ott_no) references tb_ott(ott_no);
 
 
 drop table if exists tb_article_content;
@@ -343,8 +334,9 @@ create table tb_article_content
 	,picture_no			bigint			null
 );
 
-alter table tb_article_content add constraint fk_picture_article_content foreign key(picture_no) 
-references tb_picture(picture_no);
+alter table tb_article_content add constraint fk_picture_article_content
+	foreign key(picture_no) references tb_picture(picture_no);
+
 
 
 drop table if exists tb_profile;
@@ -360,10 +352,10 @@ create table tb_profile
 );
 
 --tb_profile FK
-alter table tb_profile add constraint fk_grade_profile foreign key(gr_no) 
-references tb_grade(gr_no);
-alter table tb_profile add constraint fk_user_profile foreign key(user_no)
-references tb_user(user_no);
+alter table tb_profile add constraint fk_grade_profile
+	foreign key(gr_no) references tb_grade(gr_no);
+alter table tb_profile add constraint fk_user_profile
+	foreign key(user_no) references tb_user(user_no);
 
 
 drop table if exists tb_follow;
@@ -376,10 +368,10 @@ create table tb_follow
 );
 
 --tb_follow FK
-alter table tb_follow add constraint fk_profile_follow foreign key(followers_no) 
-references tb_profile(profile_no);
-alter table tb_follow add constraint fk_profile_follow foreign key(following_no) 
-references tb_profile(profile_no);
+alter table tb_follow add constraint fk_profile_follower
+	foreign key(followers_no) references tb_profile(profile_no);
+alter table tb_follow add constraint fk_profile_following
+	foreign key(following_no) references tb_profile(profile_no);
 
 
 drop table if exists tb_message;
@@ -393,10 +385,10 @@ create table tb_message
 );
 
 --tb_message FK
-alter table tb_message add constraint fk_profile_message foreign key(send_profile_no) 
-references tb_profile(profile_no);
-alter table tb_message add constraint fk_profile_message foreign key(receive_profile_no) 
-references tb_profile(profile_no);
+alter table tb_message add constraint fk_profile_message_send
+	foreign key(send_profile_no) references tb_profile(profile_no);
+alter table tb_message add constraint fk_profile_message_receive
+	foreign key(receive_profile_no) references tb_profile(profile_no);
 
 
 drop table if exists tb_message_Box;
@@ -408,10 +400,10 @@ create table tb_message_Box
 );
 
 --tb_message_box FK
-alter table tb_message_box add constraint fk_profile_message_box foreign key(profile_no) 
-references tb_profile(profile_no);
-alter table tb_message_box add constraint fk_message_message_box foreign key(message_no) 
-references tb_message(message_no);
+alter table tb_message_box add constraint fk_profile_message_box
+	foreign key(profile_no) references tb_profile(profile_no);
+alter table tb_message_box add constraint fk_message_message_box
+	foreign key(message_no) references tb_message(message_no);
 
 
 drop table if exists tb_search_Word;
@@ -423,8 +415,8 @@ create table tb_search_Word
 );
 
 --tb_search_word FK
-alter table tb_search_word add constraint fk_profile_search_word foreign key(profile_no) 
-references tb_profile(profile_no);
+alter table tb_search_word add constraint fk_profile_search_word
+	foreign key(profile_no) references tb_profile(profile_no);
 
 
 -- 정현
@@ -557,8 +549,8 @@ create table tb_report (
 
 alter table tb_report add constraint fk_profile_report
 	foreign key (profile_no) references tb_profile(profile_no);
-alter table tb_report add constraint fk_profile_report
-	foreign key (target_profile_no) references tb_profile(target_profile_no);
+alter table tb_report add constraint fk_target_profile_report
+	foreign key (target_profile_no) references tb_profile(profile_no);
 alter table tb_report add constraint fk_article_report
 	foreign key (article_no) references tb_article(article_no);
 alter table tb_report add constraint fk_comment_report
@@ -588,25 +580,26 @@ drop table if exists tb_my_write;
 create table tb_my_write 
 (
 	my_write_no		bigint	generated always as identity primary key
+	, profile_no	bigint	not null
+	, article_no	bigint	not null
 );
 
 --내가쓴글 프로필번호
-alter table tb_my_write
-add constraint fk_my_write_profile
-foreign key(profile_no)
-references tb_profile(profile_no);
+alter table tb_my_write add constraint fk_profile_my_write
+	foreign key(profile_no) references tb_profile(profile_no);
 
 --내가쓴글 게시글번호
-alter table tb_my_write
-add constraint fk_article_no_article
-foreign key(article_no) 
-references tb_article(article_no);
+alter table tb_my_write add constraint fk_article_no_article
+	foreign key(article_no) references tb_article(article_no);
 
 --게시글
 drop table if exists tb_article;
 create table tb_article 
 (
 	article_no				bigint			generated always as identity primary key
+	,profile_no				bigint			not null
+	,article_index_no		char(1)			not null
+	,article_content_no		bigint			not null	
 	,article_title			varchar(255)
 	,article_create_dt		timestamptz		not null
 	,article_create_user	varchar(50)		not null
@@ -616,22 +609,16 @@ create table tb_article
 );
 
 --게시글 내용번호
-alter table tb_article
-add constraint fk_article_content_no_article_content
-foreign key(article_content_no)
-references tb_article_content(article_content_no);
+alter table tb_article add constraint fk_article_content_no_article_content
+	foreign key(article_content_no) references tb_article_content(article_content_no);
 
 --게시글 프로필번호
-alter table tb_article
-add constraint fk_profile_no_profile
-foreign key(profile_no)
-references tb_profile(profile_no);
+alter table tb_article add constraint fk_profile_no_profile
+	foreign key(profile_no) references tb_profile(profile_no);
 
 --게시글 게시판종류
-alter table tb_article
-add constraint fk_article_index_no_article_index
-foreign key(article_index_no)
-references tb_article_index(article_index_no);
+alter table tb_article add constraint fk_article_index_no_article_index
+	foreign key(article_index_no) references tb_article_index(article_index_no);
 
 
 --게시글 좋아요
@@ -639,13 +626,12 @@ drop table if exists tb_article_like;
 create table tb_article_like 
 (
 	article_like_no		bigint	generated always as identity primary key
+	,article_no			bigint	not null
 );
 
 --게시글좋아요 게시글번호
-alter table tb_article_like 
-add constraint fk_article_no_article
-foreign key(article_no)
-references tb_article(article_no);
+alter table tb_article_like	add constraint fk_article_no_article
+	foreign key(article_no) references tb_article(article_no);
 
 --게시판 종류
 drop table if exists tb_article_index;
