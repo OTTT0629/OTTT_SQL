@@ -39,6 +39,7 @@ create table tb_end_service
 	end_date		date	not null
 );
 
+--tb_end_service fk
 alter table tb_end_service add constraint fk_end_service_ott_no
    foreign key (ott_no)
    references tb_ott (ott_no) on delete cascade;
