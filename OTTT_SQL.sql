@@ -8,9 +8,7 @@ create table tb_content
 	previewUrl		text			not null,
 	thumbnail		text			not null,
 	age				int				not null,
-	ott_no			bigint			not null
-	
-	
+	ott_no			bigint			not null	
 );
 
 --tb_content fk
