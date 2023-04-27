@@ -8,7 +8,7 @@ create table tb_content
 	,previewUrl			text			not null
 	,thumbnail			text			not null
 	,age				int				not null
-	,ott_no				bigint			not null	
+	,ott_no				smallint		not null	
 );
 
 --tb_content fk
@@ -20,7 +20,7 @@ alter table tb_content add constraint fk_tb_content_ott_no
 drop table if exists tb_content_category;
 create table tb_content_category
 (
-	content_category_no	bigint		primary key
+	content_category_no	bigint		generated always as identity primary key
 	,category_no		smallint	not null
 	,content_no			bigint		not null
 );
@@ -38,10 +38,10 @@ alter table tb_content_category add constraint fk_tb_content_category_content_no
 drop table if exists tb_end_service;
 create table tb_end_service
 (
-	end_service_no	bigint	generated always as identity primary key
-	,end_date		date	not null
-	,ott_no			bigint	not null
-	,content_no		bigint	not null
+	end_service_no	bigint		generated always as identity primary key
+	,end_date		date		not null
+	,ott_no			smallint	not null
+	,content_no		bigint		not null
 );
 
 --tb_end_service fk
@@ -57,7 +57,7 @@ alter table tb_end_service add constraint fk_tb_end_service_content_no
 drop table if exists tb_ott;
 create table tb_ott
 (
-	ott_no		bigint		generated always as identity primary key
+	ott_no		smallint	primary key
 	,ott_nm		varchar(50)	not null
 );
 
@@ -302,7 +302,7 @@ create table tb_user
 	,genre_no			smallint		not null
 	
 	--OTT번로 FK
-	,ott_no				bigint 			not null
+	,ott_no				smallint		not null
 	
 	--아이디
 	,user_id			varchar(20)		not null
