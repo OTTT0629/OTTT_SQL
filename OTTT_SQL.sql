@@ -57,7 +57,6 @@ create table tb_ott
 );
 
 
-
 -- 주화
 drop table if exists tb_whatched;
 create table tb_whatched(
@@ -580,6 +579,7 @@ create table tb_comment_like (
 
 alter table tb_comment_like add constraint fk_comment_comment_like
 	foreign key (cmt_no) references tb_comment(cmt_no)  on delete cascade;
+
 
 -- 수형
 --사진
