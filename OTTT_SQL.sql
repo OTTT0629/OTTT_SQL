@@ -68,10 +68,10 @@ create table tb_whatched(
 
 --tb_whatched FK
 alter table tb_whatched add constraint fk_profile_whatched
-	foreign key(profile_no) references tb_profile(profile_no) on delete cascade; (애매)
+	foreign key(profile_no) references tb_profile(profile_no) on delete cascade;
 	
 alter table tb_whatched add constraint fk_content_whatched
-	foreign key(content_no) references tb_content(content_no) on delete set null; (애매)
+	foreign key(content_no) references tb_content(content_no) on delete set null;
 
 drop table if exists tb_wishlist;
 create table tb_wishlist(
@@ -82,7 +82,8 @@ create table tb_wishlist(
 
 --tb_wishlist FK
 alter table tb_wishlist add constraint fk_profile_wishlist
-	foreign key(profile_no) references tb_profile(profile_no) on delete cascade; (애매)
+	foreign key(profile_no) references tb_profile(profile_no) on delete cascade;
+
 alter table tb_wishlist add constraint fk_content_wishlist
 	foreign key(content_no) references tb_content(content_no) on delete set null;
 
@@ -129,7 +130,7 @@ alter table tb_my_diary add constraint fk_public_yn_my_diary
 drop table if exists tb_public_yn;
 create table tb_public_yn(
 	public_yn_cd	char(1)		primary key
-	,public_yn		varchar((5)	not null
+	,public_yn		varchar(5)	not null
 );
 
 
@@ -235,7 +236,6 @@ create table tb_review
 	
 	--등록날짜
 	,review_create_dt	timestamptz		not null	
-
 );
 
 alter table tb_review add constraint fk_content_review
@@ -295,8 +295,7 @@ create table tb_genre
 );
 
 
-drop table if exists 
-;
+drop table if exists tb_user;
 create table tb_user
 (	
 	--회원번호
@@ -332,7 +331,7 @@ create table tb_article_content
 	,picture_no			bigint			null
 	
 	--내용
-	article_content		varchar(65535)	not null
+	,article_content		varchar(65535)	not null
 );
 
 alter table tb_article_content add constraint fk_picture_article_content
@@ -355,6 +354,7 @@ create table tb_profile
 --tb_profile FK
 alter table tb_profile add constraint fk_grade_profile
 	foreign key(gr_no) references tb_grade(gr_no) on delete set null;
+
 alter table tb_profile add constraint fk_user_profile
 	foreign key(user_no) references tb_user(user_no) on delete cascade;
 
@@ -425,7 +425,7 @@ alter table tb_search_word add constraint fk_profile_search_word
 
 -- 정현
 drop table if exists tb_director;
-create table tb_producer (
+create table tb_director (
 	director_no		bigint		generated always as identity primary key
 	, director_nm	varchar(15) not null
 );
@@ -571,9 +571,6 @@ alter table tb_report add constraint fk_target_profile_report
 alter table tb_report add constraint fk_article_report
 	foreign key (article_no) references tb_article(article_no)  on delete set null;
 
-alter table tb_report add constraint fk_comment_report
-	foreign key (cmt_no) references tb_comment(cmt_no)  on delete set null;
-
 
 drop table if exists tb_comment_like;
 create table tb_comment_like (
@@ -671,6 +668,7 @@ create table tb_profile_genre (
 
 alter table tb_profile_genre	add constraint fk_profile_profile_genre
 	foreign key(profile_no) references tb_profile(profile_no) on delete cascade;
+
 alter table tb_profile_genre	add constraint fk_genre_profile_genre
 	foreign key(genre_no) references tb_genre(genre_no) on delete set null;
 
@@ -684,6 +682,7 @@ create table tb_profile_ott (
 
 alter table tb_profile_ott	add constraint fk_profile_profile_ott
 	foreign key(profile_no) references tb_profile(profile_no) on delete cascade;
+
 alter table tb_profile_ott	add constraint fk_ott_profile_ott
 	foreign key(ott_no) references tb_ott(ott_no) on delete set null;
 
