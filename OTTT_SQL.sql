@@ -135,18 +135,18 @@ create table tb_skin_list(
 );
 
 --tb_skin_list FK
-alter table tb_skin_list add constraint fk_profile_skin_list
+alter table tb_skin_list add constraint fk_user_skin_list
 	foreign key(user_no) references tb_user(user_no) on delete cascade;
 
 alter table tb_skin_list  add constraint fk_mypage_background_skin_list
 	foreign key(mypage_background_no) references tb_mypage_background(mypage_background_no) on delete set null;
 
 alter table tb_skin_list  add constraint fk_profile_border_skin_list
-	foreign key(profile_border_no) references tb_user_border(profile_border_no) on delete set null;
+	foreign key(profile_border_no) references tb_profile_border(profile_border_no) on delete set null;
 
 
 drop table if exists tb_profile_border;
-create table tb_user_border(
+create table tb_profile_border(
 	profile_border_no		bigint	generated always as identity primary key
 	,profile_border_img		text not null
 );
@@ -300,7 +300,7 @@ create table tb_article_content
 	,picture_no			bigint			null
 	
 	--내용
-	,article_content		varchar(65535)	not null
+	,article_content	varchar(65535)	not null
 );
 
 alter table tb_article_content add constraint fk_picture_article_content
@@ -424,7 +424,7 @@ create table tb_category (
 drop table if exists tb_notification;
 create table tb_notification (
 	not_no				bigint	generated always as identity primary key
-	, user_no		bigint	not null
+	, user_no			bigint	not null
 	, target_user_no	bigint	not null
 	, message_no		bigint	not null
 	, article_no		bigint	not null
@@ -466,7 +466,7 @@ alter table tb_notification add constraint fk_comment_like_notification
 drop table if exists tb_comment;
 create table tb_comment (
 	cmt_no				bigint			generated always as identity primary key
-	, user_no		bigint			not null	
+	, user_no			bigint			not null	
 	, article_no		bigint			not null
 	, com_content		varchar(3000)	not null
 	, com_writer		varchar(50)		not null
