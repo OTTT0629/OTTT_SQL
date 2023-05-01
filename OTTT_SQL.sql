@@ -431,7 +431,7 @@ create table tb_notification (
 	, cmt_no			bigint	not null
 	, review_like_no	bigint	not null
 	, article_like_no	bigint	not null
-	, comment_like_no	bigint	not null
+	, cmt_like_no		bigint	not null
 	, not_check			char(1)	not null
 	, not_url			text	not null
 	, not_message		varchar	not null	
@@ -459,7 +459,7 @@ alter table tb_notification add constraint fk_article_like_notification
 	foreign key (article_like_no) references tb_article_like(article_like_no) on delete cascade;
 
 alter table tb_notification add constraint fk_comment_like_notification
-	foreign key (comment_like_no) references tb_comment_like(comment_like_no) on delete cascade;
+	foreign key (comment_like_no) references tb_comment_like(cmt_like_no) on delete cascade;
 
 
 
@@ -468,8 +468,8 @@ create table tb_comment (
 	cmt_no				bigint			generated always as identity primary key
 	, user_no			bigint			not null	
 	, article_no		bigint			not null
-	, com_content		varchar(3000)	not null
-	, com_writer		varchar(50)		not null
+	, cmt_content		varchar(3000)	not null
+	, cmt_writer		varchar(50)		not null
 	, cmt_dt			timestamptz		not null
 	, cmt_mod_dt		timestamptz		not null
 	, cmt_like_count	int				not null
@@ -507,7 +507,7 @@ alter table tb_report add constraint fk_article_report
 
 drop table if exists tb_comment_like;
 create table tb_comment_like (
-	comment_like_no	bigint	generated always as identity primary key
+	cmt_like_no	bigint	generated always as identity primary key
 	, cmt_no		bigint	not null
 );
 
@@ -535,7 +535,6 @@ create table tb_article
 	,article_content_no		bigint			not null	
 	,article_title			varchar(255)
 	,article_create_dt		timestamptz		not null
-	,article_create_user	varchar(50)		not null
 	,article_mod_dt			timestamptz
 	,article_like_count		int	
 	,report_cnt				int
@@ -579,7 +578,7 @@ create table tb_article_index
 drop table if exists tb_user_genre;
 create table tb_user_genre (
 	user_no		bigint	not null
-	,genre_no		bigint	not null
+	,genre_no	bigint	not null
 	,constraint user_genre primary key (user_no, genre_no)
 );
 
@@ -593,7 +592,7 @@ alter table tb_user_genre	add constraint fk_genre_user_genre
 drop table if exists tb_user_ott;
 create table tb_user_ott (
 	user_no		bigint	not null
-	,ott_no			bigint	not null
+	,ott_no		bigint	not null
 	,constraint user_ott primary key (user_no, ott_no)
 );
 
