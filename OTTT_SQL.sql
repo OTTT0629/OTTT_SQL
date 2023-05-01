@@ -2,13 +2,13 @@ drop table if exists tb_content;
 create table tb_content
 (
 	content_no			bigint			generated always as identity primary key
+	,ott_no				smallint		not null
 	,content_nm			varchar(100)	not null
 	,content_info		varchar(10000)	not null
 	,content_runtime	int				not null
 	,previewUrl			text			not null
 	,thumbnail			text			not null
 	,age				smallint		not null
-	,ott_no				smallint		not null
 );
 
 --tb_content fk
@@ -61,51 +61,37 @@ create table tb_ott
 drop table if exists tb_whatched;
 create table tb_whatched(
 	whatched_no		bigint	generated always as identity primary key
- 	,profile_no		bigint	not null
+ 	,user_no		bigint	not null
 	,content_no		bigint	not null
 );
 
 --tb_whatched FK
-alter table tb_whatched add constraint fk_profile_whatched
-	foreign key(profile_no) references tb_profile(profile_no) on delete cascade;
+alter table tb_whatched add constraint fk_user_whatched
+	foreign key(user_no) references tb_user(user_no) on delete cascade;
 	
 alter table tb_whatched add constraint fk_content_whatched
 	foreign key(content_no) references tb_content(content_no) on delete set null;
 
+
 drop table if exists tb_wishlist;
 create table tb_wishlist(
 	wishlist_no		smallint	generated always as identity primary key
-	,profile_no		bigint		not null
+	,user_no		bigint		not null
 	,content_no		bigint		not null
 );
 
 --tb_wishlist FK
-alter table tb_wishlist add constraint fk_profile_wishlist
-	foreign key(profile_no) references tb_profile(profile_no) on delete cascade;
+alter table tb_wishlist add constraint fk_user_wishlist
+	foreign key(user_no) references tb_user(user_no) on delete cascade;
 
 alter table tb_wishlist add constraint fk_content_wishlist
 	foreign key(content_no) references tb_content(content_no) on delete set null;
 
 
-drop table if exists tb_my_review;
-create table tb_my_review(
-	my_review_no	bigint	generated always as identity primary key
-	,profile_no		bigint	not null
-	,review_no		bigint	not null
-);
-
---tb_my_review FK
-alter table tb_my_review add constraint fk_profile_my_review
-	foreign key(profile_no) references tb_profile(profile_no) on delete cascade;
-
-alter table tb_my_review add constraint fk_Review_my_review
-	foreign key(review_no) references tb_review(review_no) on delete cascade;
-
-
 drop table if exists tb_my_diary;
 create table tb_my_diary(
 	mydiary_no				bigint			generated always as identity primary key
-	,profile_no				bigint			not null
+	,user_no				bigint			not null
 	,content_no				bigint			not null
 	,public_yn_cd			char(1)			not null
 	,mydiary_title			varchar(255)	not null
@@ -116,8 +102,8 @@ create table tb_my_diary(
 );
 
 --tb_my_diary FK
-alter table tb_my_diary add constraint fk_profile_my_diary
-	foreign key(profile_no) references tb_profile(profile_no)on delete cascade;
+alter table tb_my_diary add constraint fk_user_my_diary
+	foreign key(user_no) references tb_user(user_no)on delete cascade;
 
 alter table tb_my_diary add constraint fk_content_my_diary
 	foreign key(content_no) references tb_content(content_no)on delete set null;
@@ -143,24 +129,24 @@ create table tb_mypage_background(
 drop table if exists tb_skin_list;
 create table tb_skin_list(
 	skin_list_no			bigint	generated always as identity primary key
-	,profile_no				bigint	not null
+	,user_no				bigint	not null
 	,mypage_background_no	bigint	not null
 	,profile_border_no		bigint	not null
 );
 
 --tb_skin_list FK
 alter table tb_skin_list add constraint fk_profile_skin_list
-	foreign key(profile_no) references tb_profile(profile_no) on delete cascade;
+	foreign key(user_no) references tb_user(user_no) on delete cascade;
 
 alter table tb_skin_list  add constraint fk_mypage_background_skin_list
 	foreign key(mypage_background_no) references tb_mypage_background(mypage_background_no) on delete set null;
 
 alter table tb_skin_list  add constraint fk_profile_border_skin_list
-	foreign key(profile_border_no) references tb_profile_border(profile_border_no) on delete set null;
+	foreign key(profile_border_no) references tb_user_border(profile_border_no) on delete set null;
 
 
 drop table if exists tb_profile_border;
-create table tb_profile_border(
+create table tb_user_border(
 	profile_border_no		bigint	generated always as identity primary key
 	,profile_border_img		text not null
 );
@@ -170,40 +156,6 @@ drop table if exists tb_grade;
 create table tb_grade(
 	gr_no 		char(1)		primary key
 	,gr_nm 		varchar(10)	not null
-);
-
-
-drop table if exists tb_role;
-create table tb_role
-(
-	role_no		char(1) 	primary key
-	,role_nm  	varchar(10)	not null
-);
-
-
-drop table if exists tb_role_to_permission;
-create table tb_role_to_permission
-(
-	role_no			char(1) not null
-	,permission_no	char(1) not null 
-	,constraint role_to_permission_pk primary key (role_no, permission_no)
-);
-
-alter table tb_role_to_permission add constraint fk_role_role_to_permission
-	foreign key(role_no) references tb_role(role_no) on delete set null;
-
-alter table tb_role_to_permission add constraint fk_permission_role_to_permission
-	foreign key(permission_no) references tb_permission(permission_no) on delete set null;
-
-
-drop table if exists tb_permission;
-create table tb_permission
-(
-	permission_no 			char(1) primary key
-	,permission_read 		char(1) not null
-	,permission_write		char(1) not null
-	,permission_edit		char(1) not null
-	,permission_del			char(1) not null
 );
 
 
@@ -225,7 +177,7 @@ create table tb_review
 	,content_no			BIGINT			not null
 	
 	--작성자(프로필번호) FK
-	,profile_no			BIGINT			not null
+	,user_no			BIGINT			not null
 	
 	--별점
 	,rating			 	int				not null
@@ -240,8 +192,8 @@ create table tb_review
 alter table tb_review add constraint fk_content_review
 	foreign key(content_no) references tb_content(content_no) on delete set null;
 
-alter table tb_review add constraint fk_profile_review
-	foreign key(profile_no) references tb_profile(profile_no) on delete cascade;
+alter table tb_review add constraint fk_user_review
+	foreign key(user_no) references tb_user(user_no) on delete cascade;
 
 
 drop table if exists tb_review_like;
@@ -254,14 +206,14 @@ create table tb_review_like
 	,review_no			bigint			not null	
 	
 	--프로필번호 FK
-	,profile_no			bigint			not null
+	,user_no			bigint			not null
 );
 
 alter table tb_review_like add constraint fk_review_review_like
 	foreign key(review_no) references tb_review(review_no) on delete cascade;
 
-alter table tb_review_like add constraint fk_profile_review_like
-	foreign key(profile_no) references tb_profile(profile_no) on delete cascade;
+alter table tb_review_like add constraint fk_user_review_like
+	foreign key(user_no) references tb_user(user_no) on delete cascade;
 
 
 drop table if exists tb_content_genre;
@@ -298,25 +250,43 @@ drop table if exists tb_user;
 create table tb_user
 (	
 	--회원번호
-	user_no				bigint			generated always as identity primary key
+	user_no			bigint			generated always as identity primary key
+	
+	--등급
+	,gr_no 			char(1)			not null
 	
 	--아이디
-	,user_id			varchar(20)		not null
+	,user_id		varchar(20)		not null
 	
 	--비밀번호
-	,user_pwd			varchar(30)		not null
+	,user_pwd		varchar(30)		not null
 	
 	--이름
-	,user_nm			varchar(15)		not null
+	,user_nm		varchar(15)		not null
 	
-	--닉네임 추가 회원가입에 닉네임은 있는데 erd에는 없길래 추가 해놈
-	,user_nn			varchar(20)		not null
+	--닉네임
+	,user_nicknm	varchar(20)		not null
 	
 	--성별
-	,user_gen			int				not null
+	,user_gen		int				not null
 	
 	--이메일
-	,user_email			varchar(150)	not null
+	,user_email		varchar(150)	not null
+	
+	--관리자 여부
+	,admin			char(1)			not null
+	
+	--프로필 이미지
+	,image 			text
+	
+	--팔로잉
+	,following		bigint
+	
+	--팔로워
+	,followers 		bigint
+	
+	--신고개수
+	,report_cnt		int
 );
 
 
@@ -337,27 +307,6 @@ alter table tb_article_content add constraint fk_picture_article_content
 	foreign key(picture_no) references tb_picture(picture_no) on delete set null;
 
 
-
-drop table if exists tb_profile;
-create table tb_profile
-(
-	profile_no		bigint	generated always as identity primary key
-	,gr_no 			char(1)	not null
-	,user_no		bigint	not null
-	,following		bigint	null
-	,followers 		bigint	null
-	,image 			text	null
-	,report_cnt		int		null
-);
-
---tb_profile FK
-alter table tb_profile add constraint fk_grade_profile
-	foreign key(gr_no) references tb_grade(gr_no) on delete set null;
-
-alter table tb_profile add constraint fk_user_profile
-	foreign key(user_no) references tb_user(user_no) on delete cascade;
-
-
 drop table if exists tb_follow;
 create table tb_follow
 (
@@ -368,42 +317,42 @@ create table tb_follow
 );
 
 --tb_follow FK
-alter table tb_follow add constraint fk_profile_follower
-	foreign key(followers_no) references tb_profile(profile_no) on delete cascade;
+alter table tb_follow add constraint fk_user_follower
+	foreign key(followers_no) references tb_user(user_no) on delete cascade;
 
-alter table tb_follow add constraint fk_profile_following
-	foreign key(following_no) references tb_profile(profile_no) on delete cascade;
+alter table tb_follow add constraint fk_user_following
+	foreign key(following_no) references tb_user(user_no) on delete cascade;
 
 
 drop table if exists tb_message;
 create table tb_message
 (
 	message_no 			bigint 		  generated always as identity primary key
-	,send_profile_no 	bigint 		  not null
-	,receive_profile_no bigint 		  not null
+	,send_user_no		bigint 		  not null
+	,receive_user_no	bigint 		  not null
 	,content 			varchar(2000) not null
 	,send_date			timestamptz	  not null
 );
 
 --tb_message FK
-alter table tb_message add constraint fk_profile_message_send
-	foreign key(send_profile_no) references tb_profile(profile_no) on delete set null;
+alter table tb_message add constraint fk_user_message_send
+	foreign key(send_user_no) references tb_user(user_no) on delete set null;
 
-alter table tb_message add constraint fk_profile_message_receive
-	foreign key(receive_profile_no) references tb_profile(profile_no) on delete cascade;
+alter table tb_message add constraint fk_user_message_receive
+	foreign key(receive_user_no) references tb_user(user_no) on delete cascade;
 
 
 drop table if exists tb_message_Box;
 create table tb_message_Box
 (
 	message_box_no		bigint		generated always as identity primary key
-	,profile_no			bigint		not null
+	,user_no			bigint		not null
 	,message_no			bigint		not null
 );
 
 --tb_message_box FK
-alter table tb_message_box add constraint fk_profile_message_box
-	foreign key(profile_no) references tb_profile(profile_no) on delete cascade;
+alter table tb_message_box add constraint fk_user_message_box
+	foreign key(user_no) references tb_user(user_no) on delete cascade;
 
 alter table tb_message_box add constraint fk_message_message_box
 	foreign key(message_no) references tb_message(message_no) on delete cascade;
@@ -413,13 +362,13 @@ drop table if exists tb_search_Word;
 create table tb_search_Word
 (
 	search_word_no	bigint 		 generated always as identity primary key
-	,profile_no	  	bigint		 not null
+	,user_no	  	bigint		 not null
 	,search_content varchar(50)  not null
 );
 
 --tb_search_word FK
-alter table tb_search_word add constraint fk_profile_search_word
-	foreign key(profile_no) references tb_profile(profile_no) on delete cascade;
+alter table tb_search_word add constraint fk_user_search_word
+	foreign key(user_no) references tb_user(user_no) on delete cascade;
 
 
 -- 정현
@@ -472,26 +421,11 @@ create table tb_category (
 );
 
 
-drop table if exists tb_user_to_role;
-create table tb_user_to_role (
-	profile_no	bigint	not null
-	, role_no	char(1)	not null
-	, constraint user_to_role_pk primary key (profile_no, role_no)
-);
-
-
-alter table tb_user_to_role add constraint fk_profile_user_to_role
-	foreign key (profile_no) references tb_profile(profile_no) on delete cascade;
-
-alter table tb_user_to_role add constraint fk_role_user_to_role
-	foreign key (role_no) references tb_role(role_no) on delete set null;
-
-
 drop table if exists tb_notification;
 create table tb_notification (
 	not_no				bigint	generated always as identity primary key
-	, profile_no		bigint	not null
-	, target_profile_no	bigint	not null
+	, user_no		bigint	not null
+	, target_user_no	bigint	not null
 	, message_no		bigint	not null
 	, article_no		bigint	not null
 	, cmt_no			bigint	not null
@@ -503,11 +437,11 @@ create table tb_notification (
 	, not_message		varchar	not null	
 );
 
-alter table tb_notification add constraint fk_profile_notification
-	foreign key (profile_no) references tb_profile(profile_no) on delete cascade;
+alter table tb_notification add constraint fk_user_notification
+	foreign key (user_no) references tb_user(user_no) on delete cascade;
 
-alter table tb_notification add constraint fk_target_profile_notification
-	foreign key (target_profile_no) references tb_profile(profile_no) on delete cascade;
+alter table tb_notification add constraint fk_target_user_notification
+	foreign key (target_user_no) references tb_user(user_no) on delete cascade;
 
 alter table tb_notification add constraint fk_message_notification
 	foreign key (message_no) references tb_message(message_no) on delete cascade;
@@ -532,7 +466,7 @@ alter table tb_notification add constraint fk_comment_like_notification
 drop table if exists tb_comment;
 create table tb_comment (
 	cmt_no				bigint			generated always as identity primary key
-	, profile_no		bigint			not null	
+	, user_no		bigint			not null	
 	, article_no		bigint			not null
 	, com_content		varchar(3000)	not null
 	, com_writer		varchar(50)		not null
@@ -543,8 +477,8 @@ create table tb_comment (
 );
 
 
-alter table tb_comment add constraint fk_profile_comment
-	foreign key (profile_no) references tb_profile(profile_no) on delete cascade;
+alter table tb_comment add constraint fk_user_comment
+	foreign key (user_no) references tb_user(user_no) on delete cascade;
 
 alter table tb_comment add constraint fk_article_comment
 	foreign key (article_no) references tb_article(article_no) on delete cascade;
@@ -553,19 +487,19 @@ alter table tb_comment add constraint fk_article_comment
 drop table if exists tb_report;
 create table tb_report (
 	report_no			bigint	generated always as identity primary key
-	, profile_no		bigint	not null
-	, target_profile_no	bigint	not null
+	, user_no			bigint	not null
+	, target_user_no	bigint	not null
 	, article_no		bigint	not null
 	, report_cnt		int		not null
 	, report_type		char(1)	not null
 	, report_date		date	not null
 );
 
-alter table tb_report add constraint fk_profile_report
-	foreign key (profile_no) references tb_profile(profile_no) on delete set null;
+alter table tb_report add constraint fk_user_report
+	foreign key (user_no) references tb_user(user_no) on delete set null;
 
-alter table tb_report add constraint fk_target_profile_report
-	foreign key (target_profile_no) references tb_profile(profile_no) on delete cascade;
+alter table tb_report add constraint fk_target_user_report
+	foreign key (target_user_no) references tb_user(user_no) on delete cascade;
 
 alter table tb_report add constraint fk_article_report
 	foreign key (article_no) references tb_article(article_no)  on delete set null;
@@ -591,29 +525,12 @@ create table tb_picture
 );
 
 
---내가쓴글
-drop table if exists tb_my_write;
-create table tb_my_write 
-(
-	my_write_no		bigint	generated always as identity primary key
-	, profile_no	bigint	not null
-	, article_no	bigint	not null
-);
-
---내가쓴글 프로필번호
-alter table tb_my_write add constraint fk_profile_my_write
-	foreign key(profile_no) references tb_profile(profile_no) on delete cascade;
-
---내가쓴글 게시글번호
-alter table tb_my_write add constraint fk_article_article
-	foreign key(article_no) references tb_article(article_no) on delete cascade;
-
 --게시글
 drop table if exists tb_article;
 create table tb_article 
 (
 	article_no				bigint			generated always as identity primary key
-	,profile_no				bigint			not null
+	,user_no				bigint			not null
 	,article_index_no		char(1)			not null
 	,article_content_no		bigint			not null	
 	,article_title			varchar(255)
@@ -625,8 +542,8 @@ create table tb_article
 );
 
 --게시글 프로필번호
-alter table tb_article add constraint fk_profile_article
-	foreign key(profile_no) references tb_profile(profile_no) on delete cascade;
+alter table tb_article add constraint fk_user_article
+	foreign key(user_no) references tb_user(user_no) on delete cascade;
 
 --게시글 내용번호
 alter table tb_article add constraint fk_article_content_article
@@ -659,30 +576,30 @@ create table tb_article_index
 
 
 -- 테이블 추가
-drop table if exists tb_profile_genre;
-create table tb_profile_genre (
-	profile_no		bigint	not null
+drop table if exists tb_user_genre;
+create table tb_user_genre (
+	user_no		bigint	not null
 	,genre_no		bigint	not null
-	,constraint profile_genre primary key (profile_no, genre_no)
+	,constraint user_genre primary key (user_no, genre_no)
 );
 
-alter table tb_profile_genre	add constraint fk_profile_profile_genre
-	foreign key(profile_no) references tb_profile(profile_no) on delete cascade;
+alter table tb_user_genre	add constraint fk_user_user_genre
+	foreign key(user_no) references tb_user(user_no) on delete cascade;
 
-alter table tb_profile_genre	add constraint fk_genre_profile_genre
+alter table tb_user_genre	add constraint fk_genre_user_genre
 	foreign key(genre_no) references tb_genre(genre_no) on delete set null;
 
 
-drop table if exists tb_profile_ott;
-create table tb_profile_ott (
-	profile_no		bigint	not null
+drop table if exists tb_user_ott;
+create table tb_user_ott (
+	user_no		bigint	not null
 	,ott_no			bigint	not null
-	,constraint profile_ott primary key (profile_no, ott_no)
+	,constraint user_ott primary key (user_no, ott_no)
 );
 
-alter table tb_profile_ott	add constraint fk_profile_profile_ott
-	foreign key(profile_no) references tb_profile(profile_no) on delete cascade;
+alter table tb_user_ott	add constraint fk_user_user_ott
+	foreign key(user_no) references tb_user(user_no) on delete cascade;
 
-alter table tb_profile_ott	add constraint fk_ott_profile_ott
+alter table tb_user_ott	add constraint fk_ott_user_ott
 	foreign key(ott_no) references tb_ott(ott_no) on delete set null;
 
