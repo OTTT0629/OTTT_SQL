@@ -483,6 +483,9 @@ alter table tb_comment add constraint fk_user_comment
 
 alter table tb_comment add constraint fk_article_comment
 	foreign key (article_no) references tb_article(article_no) on delete cascade;
+	
+alter table tb_comment add constraint fk_review_comment
+	foreign key (review_no) references tb_review(review_no);
 
 
 drop table if exists tb_report;
