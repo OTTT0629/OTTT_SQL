@@ -578,6 +578,7 @@ drop table if exists tb_article_index;
 create table tb_article_index
 (
 	article_index_no	char(1)	primary key
+	,article_index_nm	varchar(10)	not null
 );
 
 
