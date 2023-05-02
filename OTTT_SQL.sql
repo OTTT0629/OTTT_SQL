@@ -467,7 +467,8 @@ drop table if exists tb_comment;
 create table tb_comment (
 	cmt_no				bigint			generated always as identity primary key
 	, user_no			bigint			not null	
-	, article_no		bigint			not null
+	, article_no		bigint
+	, review_no			bigint
 	, cmt_content		varchar(3000)	not null
 	, cmt_writer		varchar(50)		not null
 	, cmt_dt			timestamptz		not null
