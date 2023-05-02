@@ -253,7 +253,7 @@ create table tb_user
 	user_no			bigint			generated always as identity primary key
 	
 	--등급
-	,gr_no 			char(1)			not null
+	,gr_no 			char(1)			default '0'
 	
 	--아이디
 	,user_id		varchar(20)		not null
@@ -277,13 +277,13 @@ create table tb_user
 	,reg_date		timestamptz	not null
 	
 	--관리자 여부
-	,admin			char(1)			not null
+	,admin			char(1)			default 'N'
 	
 	--프로필 이미지
-	,image 			text
+	,image 			text  			
 	
 	--팔로잉
-	,following		bigint
+	,following		bigint	
 	
 	--팔로워
 	,followers 		bigint
@@ -291,6 +291,7 @@ create table tb_user
 	--신고개수
 	,report_cnt		int
 );
+
 
 
 drop table if exists tb_article_content;
