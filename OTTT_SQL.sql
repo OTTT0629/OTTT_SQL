@@ -273,6 +273,9 @@ create table tb_user
 	--이메일
 	,user_email		varchar(150)	not null
 	
+	--가입일
+	,reg_date		timestamptz	not null
+	
 	--관리자 여부
 	,admin			char(1)			not null
 	
