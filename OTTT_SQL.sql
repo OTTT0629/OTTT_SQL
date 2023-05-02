@@ -180,7 +180,7 @@ create table tb_review
 	,user_no			BIGINT			not null
 	
 	--별점
-	,rating			 	int				not null
+	,rating			 	numeric				not null
 	
 	--내용
 	,review_content		varchar(65535)	not null
