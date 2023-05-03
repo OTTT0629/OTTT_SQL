@@ -293,24 +293,6 @@ create table tb_user
 );
 
 
-
-drop table if exists tb_article_content;
-create table tb_article_content
-(
-	--내용번호
-	article_content_no	bigint			generated always as identity primary key
-	
-	--사진번호 FK
-	,picture_no			bigint			null
-	
-	--내용
-	,article_content	varchar(65535)	not null
-);
-
-alter table tb_article_content add constraint fk_picture_article_content
-	foreign key(picture_no) references tb_picture(picture_no) on delete set null;
-
-
 drop table if exists tb_follow;
 create table tb_follow
 (
@@ -524,15 +506,6 @@ alter table tb_comment_like add constraint fk_comment_comment_like
 
 
 -- 수형
---사진
-drop table if exists tb_picture;
-create table tb_picture 
-(
-	picture_no	bigint	generated always as identity primary key
-	, picture	text	not null
-);
-
-
 --게시글
 drop table if exists tb_article;
 create table tb_article 
@@ -540,7 +513,8 @@ create table tb_article
 	article_no				bigint			generated always as identity primary key
 	,user_no				bigint			not null
 	,article_index_no		char(1)			not null
-	,article_content_no		bigint			not null	
+	,article_content		bigint			not null
+	,article_image			text			
 	,article_title			varchar(255)
 	,article_create_dt		timestamptz		not null
 	,article_mod_dt			timestamptz
