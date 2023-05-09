@@ -97,7 +97,7 @@ create table tb_my_diary(
 	,mydiary_title			varchar(255)	not null
 	,mydiary_content 		varchar(65535)	not null
 	,mydiary_create_dt		timestamptz		not null
-	,ydiary_create_user		varchar(50)		not null
+	,mydiary_create_user	varchar(50)		not null
 	,mydiary_mod_dt			timestamptz		null
 );
 
@@ -122,7 +122,7 @@ create table tb_public_yn(
 drop table if exists tb_mypage_background;
 create table tb_mypage_background(
 	mypage_background_no	bigint	generated always as identity primary key
-	,mypage_background_img	text not null
+	,mypage_background_img	text	not null
 );
 
 
@@ -130,8 +130,8 @@ drop table if exists tb_skin_list;
 create table tb_skin_list(
 	skin_list_no			bigint	generated always as identity primary key
 	,user_no				bigint	not null
-	,mypage_background_no	bigint	not null
-	,profile_border_no		bigint	not null
+	,mypage_background_no	bigint
+	,profile_border_no		bigint
 );
 
 --tb_skin_list FK
@@ -180,7 +180,7 @@ create table tb_review
 	,user_no			BIGINT			not null
 	
 	--별점
-	,rating			 	numeric				not null
+	,rating			 	numeric			default 0
 	
 	--내용
 	,review_content		varchar(65535)	not null
@@ -274,22 +274,22 @@ create table tb_user
 	,user_email		varchar(150)	not null
 	
 	--가입일
-	,reg_date		timestamptz	not null
+	,reg_date		timestamptz		not null
 	
 	--관리자 여부
 	,admin			char(1)			default 'N'
 	
 	--프로필 이미지
-	,image 			text  			
+	,image 			text			default null	
 	
 	--팔로잉
-	,following		bigint	
+	,following		bigint			default 0
 	
 	--팔로워
-	,followers 		bigint
+	,followers 		bigint			default 0
 	
 	--신고개수
-	,report_cnt		int
+	,report_cnt		int				default 0
 );
 
 
@@ -299,7 +299,7 @@ create table tb_follow
 	follow_no 		bigint	generated always as identity primary key
 	,followers_no 	bigint	not null
 	,following_no 	bigint	not null
-	,status 		char(1)	not null
+	,status 		char(1)	default 'N'
 );
 
 --tb_follow FK
@@ -459,8 +459,8 @@ create table tb_comment (
 	, cmt_writer		varchar(50)		not null
 	, cmt_dt			timestamptz		not null
 	, cmt_mod_dt		timestamptz		not null
-	, cmt_like_count	int				not null
-	, report_cnt		int				not null
+	, cmt_like_count	int				default 0
+	, report_cnt		int				default 0
 );
 
 
@@ -513,13 +513,13 @@ create table tb_article
 	article_no				bigint			generated always as identity primary key
 	,user_no				bigint			not null
 	,article_index_no		char(1)			not null
-	,article_content		bigint			not null
-	,article_image			text			
+	,article_content		VARCHAR(65535)	not null
+	,article_image			text			default null
 	,article_title			varchar(255)
 	,article_create_dt		timestamptz		not null
 	,article_mod_dt			timestamptz
-	,article_like_count		int	
-	,report_cnt				int
+	,article_like_count		int				default 0
+	,report_cnt				int				default 0
 );
 
 --게시글 프로필번호
@@ -537,10 +537,11 @@ alter table tb_article add constraint fk_article_index_article
 
 --게시글 좋아요
 drop table if exists tb_article_like;
-create table tb_article_like 
+create table tb_article_like
 (
-	article_like_no		bigint	generated always as identity primary key
-	,article_no			bigint	not null
+	user_no			bigint	not null
+	,article_no		bigint	not null
+	,constraint article_like primary key (user_no, article_no)
 );
 
 --게시글좋아요 게시글번호
