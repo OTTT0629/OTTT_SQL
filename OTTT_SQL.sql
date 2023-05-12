@@ -54,6 +54,7 @@ create table tb_ott
 (
 	ott_no		smallint	primary key
 	,ott_nm		varchar(50)	not null
+	,ott_img	text		default null
 );
 
 
@@ -274,7 +275,7 @@ create table tb_user
 	,user_email		varchar(150)	not null
 	
 	--가입일
-	,reg_date		timestamptz		not null
+	,reg_date		timestamptz		default now()
 	
 	--관리자 여부
 	,admin			char(1)			default 'N'
@@ -331,9 +332,9 @@ alter table tb_message add constraint fk_user_message_receive
 drop table if exists tb_message_Box;
 create table tb_message_Box
 (
-	message_box_no		bigint		generated always as identity primary key
-	,user_no			bigint		not null
-	,message_no			bigint		not null
+	user_no			bigint		not null
+	,message_no		bigint		not null
+	,constraint message_box primary key (user_no, message_no)
 );
 
 --tb_message_box FK
@@ -412,13 +413,13 @@ create table tb_notification (
 	not_no				bigint	generated always as identity primary key
 	, user_no			bigint	not null
 	, target_user_no	bigint	not null
-	, message_no		bigint	not null
-	, article_no		bigint	not null
-	, cmt_no			bigint	not null
-	, review_like_no	bigint	not null
-	, article_like_no	bigint	not null
-	, cmt_like_no		bigint	not null
-	, not_check			char(1)	not null
+	, message_no		bigint	default null
+	, article_no		bigint	default null
+	, cmt_no			bigint	default null
+	, review_like_no	bigint	default null
+	, article_like_no	bigint	default null
+	, cmt_like_no		bigint	default null
+	, not_check			char(1)	default 'N'
 	, not_url			text	not null
 	, not_message		varchar	not null	
 );
