@@ -2,13 +2,13 @@ drop table if exists tb_content;
 create table tb_content
 (
 	content_no			bigint			generated always as identity primary key
-	,ott_no				smallint		not null
 	,content_nm			varchar(100)	not null
 	,content_info		varchar(10000)	not null
 	,content_runtime	int				not null
 	,previewUrl			text			not null
 	,thumbnail			text			not null
 	,age				smallint		not null
+	,country			varchar(50)		not null
 );
 
 --tb_content fk
@@ -587,3 +587,11 @@ alter table tb_user_ott	add constraint fk_user_user_ott
 alter table tb_user_ott	add constraint fk_ott_user_ott
 	foreign key(ott_no) references tb_ott(ott_no) on delete set null;
 
+
+drop table if exists tb_content_ott;
+create table tb_content_ott
+(
+	content_no		bigint	not null
+	,ott_no			bigint	not null
+	,constraint user_ott primary key (content_no, ott_no)
+);
