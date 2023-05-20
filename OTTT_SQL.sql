@@ -187,7 +187,7 @@ create table tb_review
 	,review_content		varchar(65535)	not null
 	
 	--등록날짜
-	,review_create_dt	timestamptz		not null	
+	,review_create_dt	timestamptz		default now()	
 );
 
 alter table tb_review add constraint fk_content_review
@@ -517,7 +517,7 @@ create table tb_article
 	,article_content		VARCHAR(65535)	not null
 	,article_image			text			default null
 	,article_title			varchar(255)
-	,article_create_dt		timestamptz		not null
+	,article_create_dt		timestamptz		default now()
 	,article_mod_dt			timestamptz
 	,article_like_count		int				default 0
 	,report_cnt				int				default 0
