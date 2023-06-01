@@ -189,6 +189,9 @@ create table tb_review
 	--등록날짜
 	,review_create_dt	timestamptz		default now()
 	
+	--수정날짜
+	,review_mod_dt		timestamptz		default null
+	
 	--댓글 개수
 	,comment_cnt		int				DEFAULT 0 NOT NULL
 );
