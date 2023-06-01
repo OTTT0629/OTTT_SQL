@@ -187,7 +187,10 @@ create table tb_review
 	,review_content		varchar(65535)	not null
 	
 	--등록날짜
-	,review_create_dt	timestamptz		default now()	
+	,review_create_dt	timestamptz		default now()
+	
+	--댓글 개수
+	,comment_cnt		int				DEFAULT 0 NOT NULL
 );
 
 alter table tb_review add constraint fk_content_review
@@ -459,7 +462,7 @@ create table tb_comment (
 	, cmt_content		varchar(3000)	not null
 	, cmt_writer		varchar(50)		not null
 	, cmt_dt			timestamptz		not null
-	, cmt_mod_dt		timestamptz		not null
+	, cmt_mod_dt		timestamptz		default null
 	, cmt_like_count	int				default 0
 	, report_cnt		int				default 0
 );
