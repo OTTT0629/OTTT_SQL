@@ -1,3 +1,5 @@
+-- 전체 쿼리문
+
 drop table if exists tb_content;
 create table tb_content
 (
@@ -5,10 +7,11 @@ create table tb_content
 	,content_nm			varchar(100)	not null
 	,content_info		varchar(10000)	not null
 	,content_runtime	int				not null
-	,previewUrl			text			not null
-	,thumbnail			text			not null
-	,age				smallint		not null
-	,country			varchar(50)		not null
+	,thumbnail			text
+	,main_img			text		
+	,age				smallint	
+	,country			varchar(50)
+	,rating				int				default 0
 );
 
 --tb_content fk
@@ -601,3 +604,23 @@ create table tb_content_ott
 	,ott_no			bigint	not null
 	,constraint user_ott primary key (content_no, ott_no)
 );
+
+-- 테이블 추가
+drop table if exists tb_content_poster;
+create table tb_content_poster
+(
+	content_no	bigint	not null
+	,poster		text	
+	,constraint content_poster primary key (content_no, poster)
+);
+
+
+drop table if exists tb_content_trailer;
+create table tb_content_trailer
+(
+	content_no		bigint	not null
+	,trailer		text
+	,constraint content_trailer primary key (content_no, trailer)
+);
+
+
