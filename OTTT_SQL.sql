@@ -327,7 +327,8 @@ create table tb_message
 	,send_user_no		bigint 		  not null
 	,receive_user_no	bigint 		  not null
 	,content 			varchar(2000) not null
-	,send_date			timestamptz	  not null
+	,send_date			timestamptz	  default now()
+	,read_yn		char(1)		default '0'
 );
 
 --tb_message FK
