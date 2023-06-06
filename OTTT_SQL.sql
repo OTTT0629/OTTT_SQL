@@ -94,15 +94,13 @@ alter table tb_wishlist add constraint fk_content_wishlist
 
 drop table if exists tb_my_diary;
 create table tb_my_diary(
-	mydiary_no				bigint			generated always as identity primary key
-	,user_no				bigint			not null
+	user_no					bigint			not null
 	,content_no				bigint			not null
-	,public_yn_cd			char(1)			not null
-	,mydiary_title			varchar(255)	not null
+	,public_yn_cd			char(1)			default '0'
 	,mydiary_content 		varchar(65535)	not null
-	,mydiary_create_dt		timestamptz		not null
-	,mydiary_create_user	varchar(50)		not null
-	,mydiary_mod_dt			timestamptz		null
+	,mydiary_create_dt		timestamptz		default now()
+	,mydiary_mod_dt			timestamptz		default null
+	,constraint my_diary primary key (user_no, content_no)
 );
 
 --tb_my_diary FK
