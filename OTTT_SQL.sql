@@ -326,6 +326,8 @@ create table tb_message
 	,content 			varchar(500) not null
 	,send_date			timestamptz	  default now()
 	,read_yn		char(1)		default '0'
+	,delete_by_sender		boolean		default false
+	,delete_by_receiver		boolean		default false
 );
 
 --tb_message FK
