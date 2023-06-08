@@ -11,7 +11,6 @@ create table tb_content
 	,main_img			text		
 	,age				smallint	
 	,country			varchar(50)
-	,rating				int				default 0
 );
 
 --tb_content fk
