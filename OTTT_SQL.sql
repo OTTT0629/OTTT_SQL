@@ -323,7 +323,7 @@ create table tb_message
 	message_no 			bigint 		  generated always as identity primary key
 	,send_user_no		bigint 		  not null
 	,receive_user_no	bigint 		  not null
-	,content 			varchar(2000) not null
+	,content 			varchar(500) not null
 	,send_date			timestamptz	  default now()
 	,read_yn		char(1)		default '0'
 );
