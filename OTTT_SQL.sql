@@ -294,9 +294,6 @@ create table tb_user
 	
 	--팔로워
 	,followers 		bigint			default 0
-	
-	--신고개수
-	,report_cnt		int				default 0
 );
 
 
@@ -470,7 +467,6 @@ create table tb_comment (
 	, cmt_dt			timestamptz		not null
 	, cmt_mod_dt		timestamptz		default null
 	, cmt_like_count	int				default 0
-	, report_cnt		int				default 0
 );
 
 
@@ -488,11 +484,12 @@ drop table if exists tb_report;
 create table tb_report (
 	report_no			bigint	generated always as identity primary key
 	, user_no			bigint	not null
-	, target_user_no	bigint	not null
-	, article_no		bigint	not null
-	, report_cnt		int		not null
+	, target_user_no	bigint	null
+	, article_no		bigint	null
+	, review_no			bigint	null
+	, cmt_no			bigint	null
 	, report_type		char(1)	not null
-	, report_date		date	not null
+	, report_date		date	default now()
 );
 
 alter table tb_report add constraint fk_user_report
@@ -529,7 +526,6 @@ create table tb_article
 	,article_create_dt		timestamptz		default now()
 	,article_mod_dt			timestamptz
 	,article_like_count		int				default 0
-	,report_cnt				int				default 0
 );
 
 --게시글 프로필번호
