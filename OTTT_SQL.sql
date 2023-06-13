@@ -482,14 +482,17 @@ alter table tb_comment add constraint fk_review_comment
 
 drop table if exists tb_report;
 create table tb_report (
-	report_no			bigint	generated always as identity primary key
-	, user_no			bigint	not null
+	user_no				bigint	not null
 	, target_user_no	bigint	null
 	, article_no		bigint	null
 	, review_no			bigint	null
 	, cmt_no			bigint	null
 	, report_type		char(1)	not null
 	, report_date		date	default now()
+	, constraint report_user		unique (user_no, target_user_no)
+	, constraint report_article	unique (user_no, article_no)
+	, constraint report_review		unique (user_no, review_no)
+	, constraint report_comment	unique (user_no, cmt_no)
 );
 
 alter table tb_report add constraint fk_user_report
