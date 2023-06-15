@@ -623,3 +623,10 @@ create table tb_content_trailer
 );
 
 
+drop table if exists tb_report_type;
+create table tb_report_type
+(
+	report_type	char(1)		primary key
+	,report_nm	varchar(10)	not null
+);
+
