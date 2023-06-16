@@ -451,10 +451,6 @@ alter table tb_notification add constraint fk_review_like_notification
 alter table tb_notification add constraint fk_article_like_notification
 	foreign key (article_like_no) references tb_article_like(article_like_no) on delete cascade;
 
-alter table tb_notification add constraint fk_comment_like_notification
-	foreign key (comment_like_no) references tb_comment_like(cmt_like_no) on delete cascade;
-
-
 
 drop table if exists tb_comment;
 create table tb_comment (
@@ -503,16 +499,6 @@ alter table tb_report add constraint fk_target_user_report
 
 alter table tb_report add constraint fk_article_report
 	foreign key (article_no) references tb_article(article_no)  on delete set null;
-
-
-drop table if exists tb_comment_like;
-create table tb_comment_like (
-	cmt_like_no	bigint	generated always as identity primary key
-	, cmt_no		bigint	not null
-);
-
-alter table tb_comment_like add constraint fk_comment_comment_like
-	foreign key (cmt_no) references tb_comment(cmt_no)  on delete cascade;
 
 
 -- 수형
