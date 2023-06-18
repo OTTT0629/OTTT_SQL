@@ -80,6 +80,7 @@ drop table if exists tb_wishlist;
 create table tb_wishlist(
 	user_no		bigint	not null
 	,content_no	bigint	not null
+	,wish_date	date	default now()
 	, constraint wishlist primary key (user_no, content_no)
 );
 
