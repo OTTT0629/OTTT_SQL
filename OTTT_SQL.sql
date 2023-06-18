@@ -78,9 +78,9 @@ alter table tb_whatched add constraint fk_content_whatched
 
 drop table if exists tb_wishlist;
 create table tb_wishlist(
-	wishlist_no		smallint	generated always as identity primary key
-	,user_no		bigint		not null
-	,content_no		bigint		not null
+	user_no		bigint	not null
+	,content_no	bigint	not null
+	, constraint wishlist primary key (user_no, content_no)
 );
 
 --tb_wishlist FK
