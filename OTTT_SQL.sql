@@ -487,9 +487,10 @@ create table tb_report (
 	, cmt_no			bigint	null
 	, report_type		char(1)	not null
 	, report_date		date	default now()
-	, constraint report_article	unique (user_no, article_no)
-	, constraint report_review		unique (user_no, review_no)
-	, constraint report_comment	unique (user_no, cmt_no)
+	, constraint report_user	unique (user_no, target_user_no, report_type)
+	, constraint report_article	unique (user_no, article_no, report_type)
+	, constraint report_review	unique (user_no, review_no, report_type)
+	, constraint report_comment	unique (user_no, cmt_no, report_type)
 );
 
 alter table tb_report add constraint fk_user_report
