@@ -61,11 +61,12 @@ create table tb_ott
 
 
 -- 주화
-drop table if exists tb_whatched;
-create table tb_whatched(
-	whatched_no		bigint	generated always as identity primary key
- 	,user_no		bigint	not null
+drop table if exists tb_watched;
+create table tb_watched(
+ 	user_no			bigint	not null
 	,content_no		bigint	not null
+	,watched_date	date	default now()
+	,constraint watched primary key (user_no, content_no)
 );
 
 --tb_whatched FK
@@ -264,7 +265,7 @@ create table tb_user
 	,gr_no 			char(1)			default '0'
 	
 	--아이디
-	,user_id		varchar(20)		not null
+	,user_id		varchar(20)		unique	not null
 	
 	--비밀번호
 	,user_pwd		varchar(30)		not null
@@ -273,13 +274,13 @@ create table tb_user
 	,user_nm		varchar(15)		not null
 	
 	--닉네임
-	,user_nicknm	varchar(20)		not null
+	,user_nicknm	varchar(20)		unique	not null
 	
 	--성별
 	,user_gen		int				not null
 	
 	--이메일
-	,user_email		varchar(150)	not null
+	,user_email		varchar(150)	unique	not null
 	
 	--가입일
 	,reg_date		timestamptz		default now()
