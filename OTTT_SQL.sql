@@ -416,18 +416,16 @@ create table tb_category (
 
 drop table if exists tb_notification;
 create table tb_notification (
-	not_no				bigint	generated always as identity primary key
+	noti_no				bigint	generated always as identity primary key
 	, user_no			bigint	not null
 	, target_user_no	bigint	not null
-	, message_no		bigint	default null
-	, article_no		bigint	default null
-	, cmt_no			bigint	default null
-	, review_like_no	bigint	default null
-	, article_like_no	bigint	default null
-	, cmt_like_no		bigint	default null
-	, not_check			char(1)	default 'N'
-	, not_url			text	not null
-	, not_message		varchar	not null	
+	, review_no			bigint
+	, article_no		bigint
+	, cmt_no			bigint
+	, message_no		bigint
+	, noti_check		boolean	default false
+	, noti_url			text	not null
+	, noti_message		varchar	not null	
 );
 
 alter table tb_notification add constraint fk_user_notification
