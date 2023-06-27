@@ -207,15 +207,13 @@ alter table tb_review add constraint fk_user_review
 
 drop table if exists tb_review_like;
 create table tb_review_like
-(	
-	--리뷰좋아요번호
-	review_like_no		bigint			generated always as identity primary key
+(		
+	--리뷰번호
+	review_no			bigint			not null	
 	
-	--리뷰번호 FK
-	,review_no			bigint			not null	
-	
-	--프로필번호 FK
+	--프로필번호
 	,user_no			bigint			not null
+	,constraint review_like primary key (review_no, user_no)
 );
 
 alter table tb_review_like add constraint fk_review_review_like
