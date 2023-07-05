@@ -302,7 +302,6 @@ create table tb_follow
 (
 	followers_no 	bigint	not null
 	,following_no 	bigint	not null
-	,status		boolean	default false
 	,constraint follow primary key (followers_no, following_no)
 );
 
