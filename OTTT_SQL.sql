@@ -300,10 +300,10 @@ create table tb_user
 drop table if exists tb_follow;
 create table tb_follow
 (
-	follow_no 		bigint	generated always as identity primary key
-	,followers_no 	bigint	not null
+	followers_no 	bigint	not null
 	,following_no 	bigint	not null
-	,status 		char(1)	default 'N'
+	,status		boolean	default false
+	,constraint follow primary key (followers_no, following_no)
 );
 
 --tb_follow FK
