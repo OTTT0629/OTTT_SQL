@@ -422,6 +422,7 @@ create table tb_notification (
 	, article_no		bigint
 	, cmt_no			bigint
 	, message_no		bigint
+	, qna_no			bigint
 	, noti_check		boolean	default false
 	, noti_url			text	not null
 	, noti_message		varchar	not null	
