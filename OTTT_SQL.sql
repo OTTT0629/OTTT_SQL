@@ -602,6 +602,7 @@ create table tb_content_trailer
 (
 	content_no		bigint	not null
 	,trailer		text
+	,thumbnail		text
 	,constraint content_trailer primary key (content_no, trailer)
 );
 
