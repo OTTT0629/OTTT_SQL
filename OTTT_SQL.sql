@@ -420,7 +420,6 @@ create table tb_notification (
 	, target_user_no	bigint	not null
 	, review_no			bigint
 	, article_no		bigint
-	, message_no		bigint
 	, qna_no			bigint
 	, noti_check		boolean	default false
 	, noti_url			text
