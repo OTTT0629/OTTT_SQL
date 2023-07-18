@@ -311,7 +311,6 @@ create table tb_notification (
 	noti_no				bigint	generated always as identity primary key
 	, user_no			bigint	not null
 	, target_user_no	bigint	not null
-	, content_no		bigint
 	, review_no			bigint
 	, article_no		bigint
 	, qna_no			bigint
