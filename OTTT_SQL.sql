@@ -438,3 +438,58 @@ create table tb_report_type
 	,report_nm	varchar(10)	not null
 );
 
+
+-- 유저 fk 추가
+ALTER TABLE tb_follow ADD FOREIGN KEY (follower_no)
+REFERENCES tb_user (user_no) on delete cascade;
+
+ALTER TABLE tb_follow ADD FOREIGN KEY (following_no)
+REFERENCES tb_user (user_no) on delete cascade;
+
+ALTER TABLE tb_watched ADD FOREIGN KEY (user_no)
+REFERENCES tb_user (user_no) on delete cascade;
+
+ALTER TABLE tb_wishlist ADD FOREIGN KEY (user_no)
+REFERENCES tb_user (user_no) on delete cascade;
+
+ALTER TABLE tb_user_ott ADD FOREIGN KEY (user_no)
+REFERENCES tb_user (user_no) on delete cascade;
+
+ALTER TABLE tb_user_genre ADD FOREIGN KEY (user_no)
+REFERENCES tb_user (user_no) on delete cascade;
+
+ALTER TABLE tb_review ADD FOREIGN KEY (user_no)
+REFERENCES tb_user (user_no) on delete cascade;
+
+ALTER TABLE tb_review_like ADD FOREIGN KEY (user_no)
+REFERENCES tb_user (user_no) on delete cascade;
+
+ALTER TABLE tb_search_word ADD FOREIGN KEY (user_no)
+REFERENCES tb_user (user_no) on delete cascade;
+
+ALTER TABLE tb_report ADD FOREIGN KEY (target_user_no)
+REFERENCES tb_user (user_no) on delete cascade;
+
+ALTER TABLE tb_report ADD FOREIGN KEY (user_no)
+REFERENCES tb_user (user_no) on delete cascade;
+
+ALTER TABLE tb_notification ADD FOREIGN KEY (user_no)
+REFERENCES tb_user (user_no) on delete cascade;
+
+ALTER TABLE tb_my_diary ADD FOREIGN KEY (user_no)
+REFERENCES tb_user (user_no) on delete cascade;
+
+ALTER TABLE tb_report ADD FOREIGN KEY (user_no)
+REFERENCES tb_user (user_no) on delete cascade;
+
+ALTER TABLE tb_message ADD FOREIGN KEY (send_user_no)
+REFERENCES tb_user (user_no) on delete cascade;
+
+ALTER TABLE tb_message ADD FOREIGN KEY (receive_user_no)
+REFERENCES tb_user (user_no) on delete cascade;
+
+ALTER TABLE tb_article ADD FOREIGN KEY (user_no)
+REFERENCES tb_user (user_no) on delete cascade;
+
+ALTER TABLE tb_article_like ADD FOREIGN KEY (user_no)
+REFERENCES tb_user (user_no) on delete cascade;
