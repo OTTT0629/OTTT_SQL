@@ -493,3 +493,6 @@ REFERENCES tb_user (user_no) on delete cascade;
 
 ALTER TABLE tb_article_like ADD FOREIGN KEY (user_no)
 REFERENCES tb_user (user_no) on delete cascade;
+
+ALTER TABLE tb_comment ADD FOREIGN KEY (user_no)
+REFERENCES tb_user (user_no) on delete cascade;
