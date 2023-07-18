@@ -13,10 +13,6 @@ create table tb_content
 	,country			varchar(50)
 );
 
---tb_content fk
-alter table tb_content add constraint fk_ott_content
-   foreign key (ott_no) references tb_ott (ott_no) on delete set null;
-
 
 drop table if exists tb_content_category;
 create table tb_content_category
@@ -25,13 +21,6 @@ create table tb_content_category
 	,category_no	smallint	not null
 	,constraint content_category_pk primary key (content_no, category_no)
 );
-
---tb_content_category fk
-alter table tb_content_category add constraint fk_category_content_category
-   foreign key (category_no) references tb_category (category_no) on delete set null;
-
-alter table tb_content_category add constraint fk_content_content_category
-   foreign key (content_no) references tb_content (content_no) on delete set null;
    
 
 drop table if exists tb_end_service;
@@ -42,13 +31,6 @@ create table tb_end_service
 	,content_no		bigint		not null
 	,end_date		date		not null
 );
-
---tb_end_service fk
-alter table tb_end_service add constraint fk_ott_end_service
-   foreign key (ott_no) references tb_ott (ott_no) on delete set null;
-  
-alter table tb_end_service add constraint fk_content_end_service
-   foreign key (content_no) references tb_content (content_no) on delete set null;
    
 
 drop table if exists tb_ott;
@@ -69,13 +51,6 @@ create table tb_watched(
 	,constraint watched primary key (user_no, content_no)
 );
 
---tb_whatched FK
-alter table tb_whatched add constraint fk_user_whatched
-	foreign key(user_no) references tb_user(user_no) on delete cascade;
-	
-alter table tb_whatched add constraint fk_content_whatched
-	foreign key(content_no) references tb_content(content_no) on delete set null;
-
 
 drop table if exists tb_wishlist;
 create table tb_wishlist(
@@ -84,13 +59,6 @@ create table tb_wishlist(
 	,wish_date	date	default now()
 	, constraint wishlist primary key (user_no, content_no)
 );
-
---tb_wishlist FK
-alter table tb_wishlist add constraint fk_user_wishlist
-	foreign key(user_no) references tb_user(user_no) on delete cascade;
-
-alter table tb_wishlist add constraint fk_content_wishlist
-	foreign key(content_no) references tb_content(content_no) on delete set null;
 
 
 drop table if exists tb_my_diary;
@@ -103,16 +71,6 @@ create table tb_my_diary(
 	,mydiary_mod_dt			timestamptz		default null
 	,constraint my_diary primary key (user_no, content_no)
 );
-
---tb_my_diary FK
-alter table tb_my_diary add constraint fk_user_my_diary
-	foreign key(user_no) references tb_user(user_no)on delete cascade;
-
-alter table tb_my_diary add constraint fk_content_my_diary
-	foreign key(content_no) references tb_content(content_no)on delete set null;
-
-alter table tb_my_diary add constraint fk_public_yn_my_diary
-	foreign key(public_yn_cd) references tb_public_yn(public_yn_cd)on delete set null;
 
 
 drop table if exists tb_public_yn;
@@ -136,16 +94,6 @@ create table tb_skin_list(
 	,mypage_background_no	bigint
 	,profile_border_no		bigint
 );
-
---tb_skin_list FK
-alter table tb_skin_list add constraint fk_user_skin_list
-	foreign key(user_no) references tb_user(user_no) on delete cascade;
-
-alter table tb_skin_list  add constraint fk_mypage_background_skin_list
-	foreign key(mypage_background_no) references tb_mypage_background(mypage_background_no) on delete set null;
-
-alter table tb_skin_list  add constraint fk_profile_border_skin_list
-	foreign key(profile_border_no) references tb_profile_border(profile_border_no) on delete set null;
 
 
 drop table if exists tb_profile_border;
@@ -198,12 +146,6 @@ create table tb_review
 	,comment_cnt		int				DEFAULT 0 NOT NULL
 );
 
-alter table tb_review add constraint fk_content_review
-	foreign key(content_no) references tb_content(content_no) on delete set null;
-
-alter table tb_review add constraint fk_user_review
-	foreign key(user_no) references tb_user(user_no) on delete cascade;
-
 
 drop table if exists tb_review_like;
 create table tb_review_like
@@ -215,12 +157,6 @@ create table tb_review_like
 	,user_no			bigint			not null
 	,constraint review_like primary key (review_no, user_no)
 );
-
-alter table tb_review_like add constraint fk_review_review_like
-	foreign key(review_no) references tb_review(review_no) on delete cascade;
-
-alter table tb_review_like add constraint fk_user_review_like
-	foreign key(user_no) references tb_user(user_no) on delete cascade;
 
 
 drop table if exists tb_content_genre;
@@ -234,12 +170,6 @@ create table tb_content_genre
 	
 	,constraint content_genre_pk primary key (content_no, genre_no)
 );
-
-alter table tb_content_Genre add constraint fk_genre_content_genre
-	foreign key(genre_no) references tb_genre(genre_no) on delete set null;
-
-alter table tb_content_genre add constraint fk_content_content_genre
-	foreign key(content_no) references tb_content(content_no) on delete cascade;
 
 
 drop table if exists tb_genre;
@@ -287,13 +217,13 @@ create table tb_user
 	,admin			char(1)			default 'N'
 	
 	--프로필 이미지
-	,image 			text			default null	
+	,image 			text			default 'https://myottt.s3.ap-northeast-2.amazonaws.com/profile/default.jpg'	
+		
+	--정지여부
+	,block_yn		boolean			default false
 	
-	--팔로잉
-	,following		bigint			default 0
-	
-	--팔로워
-	,followers 		bigint			default 0
+	--카카오 로그인
+	,kakao_no		varchar	
 );
 
 
@@ -304,13 +234,6 @@ create table tb_follow
 	,following_no 	bigint	not null
 	,constraint follow primary key (followers_no, following_no)
 );
-
---tb_follow FK
-alter table tb_follow add constraint fk_user_follower
-	foreign key(followers_no) references tb_user(user_no) on delete cascade;
-
-alter table tb_follow add constraint fk_user_following
-	foreign key(following_no) references tb_user(user_no) on delete cascade;
 
 
 drop table if exists tb_message;
@@ -326,13 +249,6 @@ create table tb_message
 	,delete_by_receiver		boolean		default false
 );
 
---tb_message FK
-alter table tb_message add constraint fk_user_message_send
-	foreign key(send_user_no) references tb_user(user_no) on delete set null;
-
-alter table tb_message add constraint fk_user_message_receive
-	foreign key(receive_user_no) references tb_user(user_no) on delete cascade;
-
 
 drop table if exists tb_message_Box;
 create table tb_message_Box
@@ -342,13 +258,6 @@ create table tb_message_Box
 	,constraint message_box primary key (user_no, message_no)
 );
 
---tb_message_box FK
-alter table tb_message_box add constraint fk_user_message_box
-	foreign key(user_no) references tb_user(user_no) on delete cascade;
-
-alter table tb_message_box add constraint fk_message_message_box
-	foreign key(message_no) references tb_message(message_no) on delete cascade;
-
 
 drop table if exists tb_search_Word;
 create table tb_search_Word
@@ -357,10 +266,6 @@ create table tb_search_Word
 	,user_no	  	bigint		 not null
 	,search_content varchar(50)  not null
 );
-
---tb_search_word FK
-alter table tb_search_word add constraint fk_user_search_word
-	foreign key(user_no) references tb_user(user_no) on delete cascade;
 
 
 -- 정현
@@ -378,12 +283,6 @@ create table tb_content_director (
 	, constraint cont_director primary key (director_no, content_no)
 );
 
-alter table tb_content_director add constraint fk_director_content_director
-	foreign key (director_no) references tb_director(director_no) on delete set null;
-
-alter table tb_content_director add constraint fk_content_content_director
-	foreign key (content_no) references tb_content(content_no) on delete set null;
-
 
 drop table if exists tb_content_entertainer;
 create table tb_content_entertainer (
@@ -391,12 +290,6 @@ create table tb_content_entertainer (
 	, content_no		bigint	not null
 	, constraint cont_entertainer_no primary key (entertainer_no, content_no)
 );
-
-alter table tb_content_entertainer add constraint fk_entertainer_content_entertainer
-	foreign key (entertainer_no) references tb_entertainer(entertainer_no) on delete set null;
-
-alter table tb_content_entertainer add constraint fk_content_content_entertainer
-	foreign key (content_no) references tb_content(content_no) on delete set null;
 
 
 drop table if exists tb_entertainer;
@@ -427,27 +320,6 @@ create table tb_notification (
 	, noti_message		varchar	not null	
 );
 
-alter table tb_notification add constraint fk_user_notification
-	foreign key (user_no) references tb_user(user_no) on delete cascade;
-
-alter table tb_notification add constraint fk_target_user_notification
-	foreign key (target_user_no) references tb_user(user_no) on delete cascade;
-
-alter table tb_notification add constraint fk_message_notification
-	foreign key (message_no) references tb_message(message_no) on delete cascade;
-
-alter table tb_notification add constraint fk_article_notification
-	foreign key (article_no) references tb_article(article_no) on delete cascade;
-
-alter table tb_notification add constraint fk_comment_notification
-	foreign key (cmt_no) references tb_comment(cmt_no) on delete cascade;
-
-alter table tb_notification add constraint fk_review_like_notification
-	foreign key (review_like_no) references tb_review_like(review_like_no) on delete cascade;
-
-alter table tb_notification add constraint fk_article_like_notification
-	foreign key (article_like_no) references tb_article_like(article_like_no) on delete cascade;
-
 
 drop table if exists tb_comment;
 create table tb_comment (
@@ -461,16 +333,6 @@ create table tb_comment (
 	, cmt_mod_dt		timestamptz		default null
 	, cmt_like_count	int				default 0
 );
-
-
-alter table tb_comment add constraint fk_user_comment
-	foreign key (user_no) references tb_user(user_no) on delete cascade;
-
-alter table tb_comment add constraint fk_article_comment
-	foreign key (article_no) references tb_article(article_no) on delete cascade;
-	
-alter table tb_comment add constraint fk_review_comment
-	foreign key (review_no) references tb_review(review_no);
 
 
 drop table if exists tb_report;
@@ -487,15 +349,6 @@ create table tb_report (
 	, constraint report_review	unique (user_no, review_no, report_type)
 	, constraint report_comment	unique (user_no, cmt_no, report_type)
 );
-
-alter table tb_report add constraint fk_user_report
-	foreign key (user_no) references tb_user(user_no) on delete set null;
-
-alter table tb_report add constraint fk_target_user_report
-	foreign key (target_user_no) references tb_user(user_no) on delete cascade;
-
-alter table tb_report add constraint fk_article_report
-	foreign key (article_no) references tb_article(article_no)  on delete set null;
 
 
 -- 수형
@@ -514,18 +367,6 @@ create table tb_article
 	,article_like_count		int				default 0
 );
 
---게시글 프로필번호
-alter table tb_article add constraint fk_user_article
-	foreign key(user_no) references tb_user(user_no) on delete cascade;
-
---게시글 내용번호
-alter table tb_article add constraint fk_article_content_article
-	foreign key(article_content_no) references tb_article_content(article_content_no) on delete set null;
-
---게시글 게시판종류
-alter table tb_article add constraint fk_article_index_article
-	foreign key(article_index_no) references tb_article_index(article_index_no) on delete cascade;
-
 
 --게시글 좋아요
 drop table if exists tb_article_like;
@@ -535,10 +376,6 @@ create table tb_article_like
 	,article_no		bigint	not null
 	,constraint article_like primary key (user_no, article_no)
 );
-
---게시글좋아요 게시글번호
-alter table tb_article_like	add constraint fk_article_article_like
-	foreign key(article_no) references tb_article(article_no) on delete cascade;
 
 
 --게시판 종류
@@ -558,12 +395,6 @@ create table tb_user_genre (
 	,constraint user_genre primary key (user_no, genre_no)
 );
 
-alter table tb_user_genre	add constraint fk_user_user_genre
-	foreign key(user_no) references tb_user(user_no) on delete cascade;
-
-alter table tb_user_genre	add constraint fk_genre_user_genre
-	foreign key(genre_no) references tb_genre(genre_no) on delete set null;
-
 
 drop table if exists tb_user_ott;
 create table tb_user_ott (
@@ -571,12 +402,6 @@ create table tb_user_ott (
 	,ott_no		bigint	not null
 	,constraint user_ott primary key (user_no, ott_no)
 );
-
-alter table tb_user_ott	add constraint fk_user_user_ott
-	foreign key(user_no) references tb_user(user_no) on delete cascade;
-
-alter table tb_user_ott	add constraint fk_ott_user_ott
-	foreign key(ott_no) references tb_ott(ott_no) on delete set null;
 
 
 drop table if exists tb_content_ott;
