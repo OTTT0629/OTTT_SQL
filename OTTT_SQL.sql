@@ -496,3 +496,15 @@ REFERENCES tb_user (user_no) on delete cascade;
 
 ALTER TABLE tb_comment ADD FOREIGN KEY (user_no)
 REFERENCES tb_user (user_no) on delete cascade;
+
+ALTER TABLE tb_comment ADD FOREIGN KEY (article_no)
+REFERENCES tb_article (article_no) on delete cascade; 
+
+ALTER TABLE tb_comment ADD FOREIGN KEY (review_no)
+REFERENCES tb_review (review_no) on delete cascade;
+
+ALTER TABLE tb_article_like ADD FOREIGN KEY (article_no)
+REFERENCES tb_article (article_no) on delete cascade;
+
+ALTER TABLE tb_review_like ADD FOREIGN KEY (review_no)
+REFERENCES tb_review (review_no) on delete cascade;
